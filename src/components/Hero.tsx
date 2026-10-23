@@ -1,6 +1,7 @@
 import { BRAND_CONFIG } from '../data/mirthyData'
 import { HeroScene } from './3d/HeroScene'
 import { ArrowDown, Sparkles, MapPin, Clock } from 'lucide-react'
+import { ErrorBoundary } from './common/ErrorBoundary'
 
 interface HeroProps {
   onOpenReserve: () => void
@@ -70,7 +71,26 @@ export function Hero({ onOpenReserve, onOpenMenu }: HeroProps) {
         {/* Right Column: Interactive 3D Entremet Showcase */}
         <div className="hero-3d-wrapper">
           <div className="hero-3d-card">
-            <HeroScene />
+            <ErrorBoundary
+              fallback={
+                <div className="hero-fallback-container">
+                  <img
+                    src="/images/IMG_20261023_173944.jpg"
+                    alt="Hazelnut Obsidian signature entremet"
+                    className="hero-fallback-image"
+                    width="480"
+                    height="480"
+                    fetchPriority="high"
+                  />
+                  <div className="hero-fallback-badge">
+                    <span>Signature Entremet</span>
+                    <strong>Hazelnut Obsidian</strong>
+                  </div>
+                </div>
+              }
+            >
+              <HeroScene />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

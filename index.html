@@ -1643,6 +1643,13 @@
         display: none !important;
       }
 
+      .video-card {
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+      }
+
       .content-section {
         padding: 70px 20px;
       }
@@ -2410,12 +2417,23 @@
     const BASE_VELOCITY = -50;           // 50u per second right-to-left
 
     const container = document.getElementById('carouselContainer');
-    const heroFrame = document.getElementById('heroFrame');
+    function isMobile() {
+      return window.innerWidth <= 820;
+    }
 
     // 1. Cached Dimensions & Responsive Unit Management
     let u = 1;
     function updateDimensions() {
-      u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (w <= 480) {
+        u = w / 440;
+      } else if (w <= 820) {
+        u = w / 640;
+      } else {
+        u = Math.min(w / 1440, h / 1080);
+      }
+      if (!u || isNaN(u) || u <= 0) u = 1;
     }
     updateDimensions();
     window.addEventListener('resize', updateDimensions, { passive: true });
@@ -2432,7 +2450,7 @@
       prefersReducedMotion = e.matches;
       if (prefersReducedMotion) {
         videoElements.forEach(v => { if (!v.paused) v.pause(); });
-      } else if (isHeroInView) {
+      } else if (isHeroInView && !isMobile()) {
         videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
       }
     });
@@ -2443,6 +2461,7 @@
     // Build the 10 Video Card Elements with Keyboard & Touch Optimization
     const cardElements = [];
     const videoElements = [];
+    const mobile = isMobile();
 
     for (let i = 0; i < NUM_CARDS; i++) {
       const data = CARDS_DATA[i];
@@ -2472,19 +2491,21 @@
       mediaWrap.appendChild(poster);
 
       let video = null;
-      if (data.type === 'video') {
+      // On mobile, rely solely on crisp static posters to eliminate WebKit GPU crashes and video buffering spinners
+      if (data.type === 'video' && !mobile) {
         video = document.createElement('video');
         video.className = 'card-video';
         video.src = resolvePath(data.videoSrc);
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
-        video.autoplay = true;
-        video.preload = 'auto';
         video.setAttribute('muted', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('loop', '');
+        video.preload = 'metadata';
+        video.autoplay = true;
         video.setAttribute('autoplay', '');
+
         video.onerror = function() {
           if (!this.dataset.retried) {
             this.dataset.retried = '1';
@@ -2649,7 +2670,7 @@
             if (isPageVisible && !animationFrameId) {
               animationFrameId = requestAnimationFrame(renderLoop);
             }
-            if (!prefersReducedMotion) {
+            if (!prefersReducedMotion && !isMobile()) {
               videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
             }
           }
@@ -2758,30 +2779,39 @@
           item.lastH = H_px;
         }
 
-        const tl_y_local = (tl_y_u - minY_u) * u;
-        const tr_y_local = (tr_y_u - minY_u) * u;
-        const br_y_local = (br_y_u - minY_u) * u;
-        const bl_y_local = (bl_y_u - minY_u) * u;
+        if (mobile) {
+          // On mobile, use clean native rounded corners without GPU clipPath re-rasterization
+          if (item.card.style.clipPath) {
+            item.card.style.clipPath = '';
+            item.card.style.webkitClipPath = '';
+            item.lastPath = '';
+          }
+        } else {
+          const tl_y_local = (tl_y_u - minY_u) * u;
+          const tr_y_local = (tr_y_u - minY_u) * u;
+          const br_y_local = (br_y_u - minY_u) * u;
+          const bl_y_local = (bl_y_u - minY_u) * u;
 
-        const r = Math.min(15 * u, W_px / 4, H_px / 4);
+          const r = Math.min(15 * u, W_px / 4, H_px / 4);
 
-        const slopeTop = (tr_y_local - tl_y_local) / W_px;
-        const slopeBottom = (bl_y_local - br_y_local) / W_px;
+          const slopeTop = W_px > 0 ? (tr_y_local - tl_y_local) / W_px : 0;
+          const slopeBottom = W_px > 0 ? (bl_y_local - br_y_local) / W_px : 0;
 
-        const pathDef = `path('M 0,${(tl_y_local + r).toFixed(1)} ` +
-          `Q 0,${tl_y_local.toFixed(1)} ${r.toFixed(1)},${(tl_y_local + slopeTop * r).toFixed(1)} ` +
-          `L ${(W_px - r).toFixed(1)},${(tr_y_local - slopeTop * r).toFixed(1)} ` +
-          `Q ${W_px.toFixed(1)},${tr_y_local.toFixed(1)} ${W_px.toFixed(1)},${(tr_y_local + r).toFixed(1)} ` +
-          `L ${W_px.toFixed(1)},${(br_y_local - r).toFixed(1)} ` +
-          `Q ${W_px.toFixed(1)},${br_y_local.toFixed(1)} ${(W_px - r).toFixed(1)},${(br_y_local + slopeBottom * r).toFixed(1)} ` +
-          `L ${r.toFixed(1)},${(bl_y_local - slopeBottom * r).toFixed(1)} ` +
-          `Q 0,${bl_y_local.toFixed(1)} 0,${(bl_y_local - r).toFixed(1)} Z')`;
+          const pathDef = `path('M 0,${(tl_y_local + r).toFixed(1)} ` +
+            `Q 0,${tl_y_local.toFixed(1)} ${r.toFixed(1)},${(tl_y_local + slopeTop * r).toFixed(1)} ` +
+            `L ${(W_px - r).toFixed(1)},${(tr_y_local - slopeTop * r).toFixed(1)} ` +
+            `Q ${W_px.toFixed(1)},${tr_y_local.toFixed(1)} ${W_px.toFixed(1)},${(tr_y_local + r).toFixed(1)} ` +
+            `L ${W_px.toFixed(1)},${(br_y_local - r).toFixed(1)} ` +
+            `Q ${W_px.toFixed(1)},${br_y_local.toFixed(1)} ${(W_px - r).toFixed(1)},${(br_y_local + slopeBottom * r).toFixed(1)} ` +
+            `L ${r.toFixed(1)},${(bl_y_local - slopeBottom * r).toFixed(1)} ` +
+            `Q 0,${bl_y_local.toFixed(1)} 0,${(bl_y_local - r).toFixed(1)} Z')`;
 
-        // Cache clipPath string to avoid CPU re-rasterization
-        if (item.lastPath !== pathDef) {
-          item.card.style.clipPath = pathDef;
-          item.card.style.webkitClipPath = pathDef;
-          item.lastPath = pathDef;
+          // Cache clipPath string to avoid CPU re-rasterization
+          if (item.lastPath !== pathDef) {
+            item.card.style.clipPath = pathDef;
+            item.card.style.webkitClipPath = pathDef;
+            item.lastPath = pathDef;
+          }
         }
       }
     }
@@ -2793,7 +2823,7 @@
         if (isHeroInView && !animationFrameId) {
           animationFrameId = requestAnimationFrame(renderLoop);
         }
-        if (isHeroInView && !prefersReducedMotion) {
+        if (isHeroInView && !prefersReducedMotion && !isMobile()) {
           videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
         }
       } else {
@@ -2808,8 +2838,9 @@
     animationFrameId = requestAnimationFrame(renderLoop);
 
     /* 6. ENTRANCE WEB ANIMATIONS API SEQUENCE */
-    if (prefersReducedMotion) {
-      videoElements.forEach(v => v.pause());
+    if (prefersReducedMotion || isMobile()) {
+      // On mobile or reduced-motion, ensure all content is statically and immediately visible
+      videoElements.forEach(v => { if (!v.paused) v.pause(); });
     } else {
       const logo = document.getElementById('brandLogo');
       const navBar = document.getElementById('navBar');
@@ -2822,12 +2853,6 @@
       const btnRing = document.getElementById('btnRing');
       const btnExplore = document.getElementById('btnExplore');
 
-      const slashes = document.getElementById('doodleSlashes');
-      const noteLove = document.getElementById('noteLoveWrap');
-      const arrowLove = document.getElementById('arrowLove');
-      const noteFresh = document.getElementById('noteFreshWrap');
-      const arrowFresh = document.getElementById('arrowFresh');
-
       const slash1 = document.getElementById('slash1');
       const slash2 = document.getElementById('slash2');
       const pathArrowLove = document.getElementById('pathArrowLove');
@@ -2838,14 +2863,33 @@
       const strokeElements = [slash1, slash2, pathArrowLove, headArrowLove, pathArrowFresh, headArrowFresh];
       strokeElements.forEach(el => {
         if (!el) return;
-        const len = el.getTotalLength() || 120;
-        el.style.strokeDasharray = len;
-        el.style.strokeDashoffset = len;
+        try {
+          const len = (typeof el.getTotalLength === 'function' ? el.getTotalLength() : 0) || 120;
+          el.style.strokeDasharray = len;
+          el.style.strokeDashoffset = len;
+        } catch {
+          // safe fallback
+        }
       });
 
-      [logo, navBar, topActions].forEach(el => {
+      function safeAnimate(el, keyframes, options) {
         if (!el) return;
-        el.animate([
+        try {
+          const a = el.animate(keyframes, options);
+          if (a && a.onfinish !== undefined) {
+            a.onfinish = () => {
+              el.style.opacity = '1';
+              el.style.transform = 'none';
+              try { a.cancel(); } catch {}
+            };
+          }
+        } catch {
+          el.style.opacity = '1';
+        }
+      }
+
+      [logo, navBar, topActions].forEach(el => {
+        safeAnimate(el, [
           { opacity: 0, transform: 'translateY(-24px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ], {
@@ -2856,7 +2900,7 @@
       });
 
       if (badge) {
-        badge.animate([
+        safeAnimate(badge, [
           { opacity: 0, transform: 'scale(0.85)' },
           { opacity: 1, transform: 'scale(1)' }
         ], {
@@ -2868,7 +2912,7 @@
       }
 
       if (line1) {
-        line1.animate([
+        safeAnimate(line1, [
           { opacity: 0, transform: 'translateY(36px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ], {
@@ -2880,7 +2924,7 @@
       }
 
       if (line2) {
-        line2.animate([
+        safeAnimate(line2, [
           { opacity: 0, transform: 'translateY(36px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ], {
@@ -2892,7 +2936,7 @@
       }
 
       if (subline) {
-        subline.animate([
+        safeAnimate(subline, [
           { opacity: 0, transform: 'translateY(24px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ], {
@@ -2904,7 +2948,7 @@
       }
 
       if (cards) {
-        cards.animate([
+        safeAnimate(cards, [
           { opacity: 0, transform: 'translateY(60px)' },
           { opacity: 1, transform: 'translateY(0)' }
         ], {
@@ -2916,8 +2960,7 @@
       }
 
       [btnRing, btnExplore].forEach(el => {
-        if (!el) return;
-        el.animate([
+        safeAnimate(el, [
           { opacity: 0, transform: 'scale(0.8)' },
           { opacity: 1, transform: 'scale(1)' }
         ], {
@@ -2931,20 +2974,21 @@
       setTimeout(() => {
         strokeElements.forEach(el => {
           if (!el) return;
-          el.animate([
-            { strokeDashoffset: el.style.strokeDasharray },
-            { strokeDashoffset: 0 }
-          ], {
-            duration: 700,
-            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            fill: 'forwards'
-          });
+          try {
+            el.animate([
+              { strokeDashoffset: el.style.strokeDasharray },
+              { strokeDashoffset: 0 }
+            ], {
+              duration: 700,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              fill: 'forwards'
+            });
+          } catch {}
         });
       }, 920);
 
       [noteLove, noteFresh].forEach(el => {
-        if (!el) return;
-        el.animate([
+        safeAnimate(el, [
           { opacity: 0, transform: 'scale(0.92)' },
           { opacity: 1, transform: 'scale(1)' }
         ], {

@@ -4,6 +4,26 @@ import { OrbitControls, Float, ContactShadows, Html, Environment } from '@react-
 import * as THREE from 'three'
 import { EntremetModel } from './EntremetModel'
 import { RotateCw, RefreshCcw, Layers } from 'lucide-react'
+import { ErrorBoundary } from '../common/ErrorBoundary'
+
+function HeroFallback() {
+  return (
+    <div className="hero-fallback-container">
+      <img
+        src="/images/IMG_20261023_173944.jpg"
+        alt="Hazelnut Obsidian signature entremet"
+        className="hero-fallback-image"
+        width="480"
+        height="480"
+        fetchPriority="high"
+      />
+      <div className="hero-fallback-badge">
+        <span>Signature Entremet</span>
+        <strong>Hazelnut Obsidian</strong>
+      </div>
+    </div>
+  )
+}
 
 // Golden Floating Dust Particles (Optimized)
 function GoldenDust() {
@@ -156,82 +176,74 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
   }
 
   if (!hasWebGL) {
-    return (
-      <div className="hero-fallback-container">
-        <img
-          src="/images/IMG_20261023_173944.jpg"
-          alt="Hazelnut Obsidian signature entremet"
-          className="hero-fallback-image"
-          width="480"
-          height="480"
-          fetchPriority="high"
-        />
-        <div className="hero-fallback-badge">
-          <span>Signature Entremet</span>
-          <strong>Hazelnut Obsidian</strong>
-        </div>
-      </div>
-    )
+    return <HeroFallback />
   }
 
   const isMobileDevice = typeof window !== 'undefined' && window.innerWidth <= 768
 
   return (
-    <div
-      ref={containerRef}
-      className="hero-canvas-wrapper"
-      style={{ position: 'relative', width: '100%', height: '100%' }}
-    >
-      <Canvas
-        camera={{ position: [0, 2.1, 4.8], fov: 40 }}
-        frameloop={isInView ? 'always' : 'never'}
-        dpr={isMobileDevice ? 1 : [1, 1.5]}
-        gl={{ antialias: !isMobileDevice, alpha: true, powerPreference: 'high-performance' }}
-        onPointerDown={onInteract}
+    <ErrorBoundary fallback={<HeroFallback />}>
+      <div
+        ref={containerRef}
+        className="hero-canvas-wrapper"
+        style={{ position: 'relative', width: '100%', height: '100%' }}
       >
-        {/* Soft Ambient Fill */}
-        <ambientLight intensity={0.9} color="#523a2b" />
-        
-        {/* Key Directional Studio Light */}
-        <directionalLight
-          position={[4, 6, 4]}
-          intensity={2.6}
-          color="#fff5eb"
-        />
+        <Canvas
+          camera={{ position: [0, 2.1, 4.8], fov: 40 }}
+          frameloop={isInView ? 'always' : 'never'}
+          dpr={isMobileDevice ? 1 : [1, 1.5]}
+          gl={{ antialias: !isMobileDevice, alpha: true, powerPreference: 'high-performance' }}
+          onPointerDown={onInteract}
+          onCreated={({ gl }) => {
+            gl.domElement.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault()
+              setHasWebGL(false)
+            }, false)
+          }}
+        >
+          {/* Soft Ambient Fill */}
+          <ambientLight intensity={0.9} color="#523a2b" />
+          
+          {/* Key Directional Studio Light */}
+          <directionalLight
+            position={[4, 6, 4]}
+            intensity={2.6}
+            color="#fff5eb"
+          />
 
-        {/* Cool Rim Light */}
-        <directionalLight
-          position={[-5, 4, -3]}
-          intensity={1.4}
-          color="#9bb7d4"
-        />
+          {/* Cool Rim Light */}
+          <directionalLight
+            position={[-5, 4, -3]}
+            intensity={1.4}
+            color="#9bb7d4"
+          />
 
-        {/* Warm Golden Glow from front-below */}
-        <pointLight position={[0, -1.5, 3]} intensity={1.2} color="#c58940" />
+          {/* Warm Golden Glow from front-below */}
+          <pointLight position={[0, -1.5, 3]} intensity={1.2} color="#c58940" />
 
-        {/* Top Focused Spotlight */}
-        <spotLight
-          position={[0, 6, 1]}
-          intensity={1.6}
-          angle={0.6}
-          penumbra={0.8}
-          color="#fff0d0"
-        />
+          {/* Top Focused Spotlight */}
+          <spotLight
+            position={[0, 6, 1]}
+            intensity={1.6}
+            angle={0.6}
+            penumbra={0.8}
+            color="#fff0d0"
+          />
 
-        {/* Studio Environment Reflections */}
-        <Environment preset="apartment" background={false} />
+          <Suspense fallback={null}>
+            {/* Studio Environment Reflections - inside Suspense */}
+            <Environment preset="apartment" background={false} />
 
-        <Suspense fallback={null}>
-          <Float
-            speed={isInspecting || prefersReducedMotion ? 0 : 1.2}
-            rotationIntensity={isInspecting || prefersReducedMotion ? 0 : 0.12}
-            floatIntensity={isInspecting || prefersReducedMotion ? 0 : 0.2}
-          >
-            <EntremetModel
-              isInspecting={isInspecting}
-              rotationSpeed={autoRotate && !prefersReducedMotion ? 0.6 : 0}
-            />
-          </Float>
+            <Float
+              speed={isInspecting || prefersReducedMotion ? 0 : 1.2}
+              rotationIntensity={isInspecting || prefersReducedMotion ? 0 : 0.12}
+              floatIntensity={isInspecting || prefersReducedMotion ? 0 : 0.2}
+            >
+              <EntremetModel
+                isInspecting={isInspecting}
+                rotationSpeed={autoRotate && !prefersReducedMotion ? 0.6 : 0}
+              />
+            </Float>
 
           {/* Golden Floating Dust */}
           {!prefersReducedMotion && <GoldenDust />}
@@ -334,5 +346,7 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
         <span>Drag to rotate 360° • Real-time Three.js</span>
       </div>
     </div>
+  </ErrorBoundary>
   )
 }
+
