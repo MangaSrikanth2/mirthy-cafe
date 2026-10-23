@@ -515,6 +515,8 @@
       cursor: pointer;
       transform-origin: 0 0;
       touch-action: pan-y;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .video-card:focus-visible {
@@ -531,6 +533,7 @@
       height: 100%;
       overflow: hidden;
       background-color: var(--mint-badge);
+      contain: layout paint;
     }
 
     .card-poster {
@@ -543,6 +546,7 @@
       opacity: 1;
       transition: opacity 0.4s ease;
       pointer-events: none;
+      backface-visibility: hidden;
     }
 
     .card-video {
@@ -555,6 +559,7 @@
       opacity: 0;
       transition: opacity 0.5s ease;
       pointer-events: none;
+      backface-visibility: hidden;
     }
 
     .card-video.is-ready {
@@ -568,10 +573,8 @@
       width: calc(30 * var(--u));
       height: calc(30 * var(--u));
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(calc(6 * var(--u)));
-      -webkit-backdrop-filter: blur(calc(6 * var(--u)));
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.95);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -782,15 +785,14 @@
       position: absolute;
       top: 14px;
       left: 14px;
-      background: rgba(245, 248, 239, 0.92);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(245, 248, 239, 0.96);
       color: var(--forest-green);
       font-size: 12px;
       font-weight: 600;
       padding: 4px 12px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(8, 72, 45, 0.12);
+      border: 1px solid rgba(8, 72, 45, 0.15);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
 
     .menu-card-content {
@@ -2477,10 +2479,12 @@
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
-        video.preload = 'metadata';
+        video.autoplay = true;
+        video.preload = 'auto';
         video.setAttribute('muted', '');
         video.setAttribute('playsinline', '');
         video.setAttribute('loop', '');
+        video.setAttribute('autoplay', '');
         video.onerror = function() {
           if (!this.dataset.retried) {
             this.dataset.retried = '1';
@@ -2617,39 +2621,52 @@
     window.addEventListener('pointerup', stopDragging);
     window.addEventListener('pointercancel', stopDragging);
 
-    // 4. Hero Section IntersectionObserver (Pauses Off-Screen Work)
+    // 4. Hero Section IntersectionObserver (Pauses Off-Screen Work Completely)
     const heroSection = document.getElementById('hero');
+    let animationFrameId = null;
+
+    function renderLoop() {
+      if (!isPageVisible || !isHeroInView) {
+        animationFrameId = null;
+        return;
+      }
+      render();
+      animationFrameId = requestAnimationFrame(renderLoop);
+    }
+
     if (heroSection && 'IntersectionObserver' in window) {
       const heroObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           isHeroInView = entry.isIntersecting;
           if (!isHeroInView) {
+            if (animationFrameId) {
+              cancelAnimationFrame(animationFrameId);
+              animationFrameId = null;
+            }
             videoElements.forEach(v => { if (!v.paused) v.pause(); });
-          } else if (isPageVisible && !prefersReducedMotion) {
-            videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+          } else {
+            prevClockTime = performance.now();
+            if (isPageVisible && !animationFrameId) {
+              animationFrameId = requestAnimationFrame(renderLoop);
+            }
+            if (!prefersReducedMotion) {
+              videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+            }
           }
         });
       }, { threshold: 0.05 });
       heroObserver.observe(heroSection);
     }
 
-    let clockAnim = null;
-    try {
-      clockAnim = document.documentElement.animate(
-        [{ opacity: 1 }, { opacity: 1 }],
-        { duration: 1e9, iterations: Infinity }
-      );
-    } catch (e) {}
-
-    let prevClockTime = clockAnim ? (clockAnim.currentTime || 0) : performance.now();
+    let prevClockTime = performance.now();
 
     function isMobile() {
       return window.innerWidth <= 820;
     }
 
-    // 5. Geometry Calculation & Render Loop (Hardware Accelerated)
+    // 5. Geometry Calculation & Render Loop (Hardware Accelerated, Zero Reflow Thrash)
     function render() {
-      const now = clockAnim ? (clockAnim.currentTime || performance.now()) : performance.now();
+      const now = performance.now();
       const dt = Math.min((now - prevClockTime) / 1000, 0.1);
       prevClockTime = now;
 
@@ -2697,8 +2714,8 @@
         const isVisible = (x_right_px > viewportLeft) && (x_left_px < viewportRight);
 
         if (!isVisible) {
-          if (item.card.style.display !== 'none') {
-            item.card.style.display = 'none';
+          if (item.card.style.visibility !== 'hidden') {
+            item.card.style.visibility = 'hidden';
           }
           if (item.video && !item.video.paused) {
             item.video.pause();
@@ -2706,12 +2723,8 @@
           continue;
         }
 
-        if (item.card.style.display === 'none') {
-          item.card.style.display = 'block';
-        }
-
-        if (item.video && item.video.paused && isHeroInView && !prefersReducedMotion) {
-          item.video.play().catch(() => {});
+        if (item.card.style.visibility !== 'visible') {
+          item.card.style.visibility = 'visible';
         }
 
         const q_left = Math.abs(x_left - centerTargetX) / normDiv;
@@ -2732,9 +2745,18 @@
         const H_px = (maxY_u - minY_u) * u;
         const minY_px = minY_u * u;
 
-        item.card.style.transform = `translate3d(${x_left_px}px, ${minY_px}px, 0)`;
-        item.card.style.width = `${W_px}px`;
-        item.card.style.height = `${H_px}px`;
+        // Position via GPU translate3d without causing reflow
+        item.card.style.transform = `translate3d(${x_left_px.toFixed(1)}px, ${minY_px.toFixed(1)}px, 0)`;
+
+        // Only update width/height if changed by >= 0.5px to eliminate layout thrashing
+        if (Math.abs(W_px - (item.lastW || 0)) >= 0.5) {
+          item.card.style.width = `${W_px.toFixed(1)}px`;
+          item.lastW = W_px;
+        }
+        if (Math.abs(H_px - (item.lastH || 0)) >= 0.5) {
+          item.card.style.height = `${H_px.toFixed(1)}px`;
+          item.lastH = H_px;
+        }
 
         const tl_y_local = (tl_y_u - minY_u) * u;
         const tr_y_local = (tr_y_u - minY_u) * u;
@@ -2746,36 +2768,29 @@
         const slopeTop = (tr_y_local - tl_y_local) / W_px;
         const slopeBottom = (bl_y_local - br_y_local) / W_px;
 
-        const pathDef = `path('M 0,${tl_y_local + r} ` +
-          `Q 0,${tl_y_local} ${r},${tl_y_local + slopeTop * r} ` +
-          `L ${W_px - r},${tr_y_local - slopeTop * r} ` +
-          `Q ${W_px},${tr_y_local} ${W_px},${tr_y_local + r} ` +
-          `L ${W_px},${br_y_local - r} ` +
-          `Q ${W_px},${br_y_local} ${W_px - r},${br_y_local + slopeBottom * r} ` +
-          `L ${r},${bl_y_local - slopeBottom * r} ` +
-          `Q 0,${bl_y_local} 0,${bl_y_local - r} Z')`;
+        const pathDef = `path('M 0,${(tl_y_local + r).toFixed(1)} ` +
+          `Q 0,${tl_y_local.toFixed(1)} ${r.toFixed(1)},${(tl_y_local + slopeTop * r).toFixed(1)} ` +
+          `L ${(W_px - r).toFixed(1)},${(tr_y_local - slopeTop * r).toFixed(1)} ` +
+          `Q ${W_px.toFixed(1)},${tr_y_local.toFixed(1)} ${W_px.toFixed(1)},${(tr_y_local + r).toFixed(1)} ` +
+          `L ${W_px.toFixed(1)},${(br_y_local - r).toFixed(1)} ` +
+          `Q ${W_px.toFixed(1)},${br_y_local.toFixed(1)} ${(W_px - r).toFixed(1)},${(br_y_local + slopeBottom * r).toFixed(1)} ` +
+          `L ${r.toFixed(1)},${(bl_y_local - slopeBottom * r).toFixed(1)} ` +
+          `Q 0,${bl_y_local.toFixed(1)} 0,${(bl_y_local - r).toFixed(1)} Z')`;
 
-        item.card.style.clipPath = pathDef;
-        item.card.style.webkitClipPath = pathDef;
+        // Cache clipPath string to avoid CPU re-rasterization
+        if (item.lastPath !== pathDef) {
+          item.card.style.clipPath = pathDef;
+          item.card.style.webkitClipPath = pathDef;
+          item.lastPath = pathDef;
+        }
       }
-    }
-
-    let animationFrameId = null;
-
-    function renderLoop() {
-      if (!isPageVisible) {
-        animationFrameId = null;
-        return;
-      }
-      render();
-      animationFrameId = requestAnimationFrame(renderLoop);
     }
 
     document.addEventListener('visibilitychange', () => {
       isPageVisible = !document.hidden;
       if (isPageVisible) {
         prevClockTime = performance.now();
-        if (!animationFrameId) {
+        if (isHeroInView && !animationFrameId) {
           animationFrameId = requestAnimationFrame(renderLoop);
         }
         if (isHeroInView && !prefersReducedMotion) {
@@ -2854,8 +2869,8 @@
 
       if (line1) {
         line1.animate([
-          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
-          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+          { opacity: 0, transform: 'translateY(36px)' },
+          { opacity: 1, transform: 'translateY(0)' }
         ], {
           delay: 260,
           duration: 750,
@@ -2866,8 +2881,8 @@
 
       if (line2) {
         line2.animate([
-          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
-          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+          { opacity: 0, transform: 'translateY(36px)' },
+          { opacity: 1, transform: 'translateY(0)' }
         ], {
           delay: 380,
           duration: 750,
