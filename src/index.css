@@ -2405,6 +2405,14 @@ button {
 }
 
 @media (max-width: 768px) {
+  .hero-section {
+    min-height: auto;
+    padding-top: calc(var(--header-height) + 1rem);
+    padding-bottom: 2rem;
+  }
+  .hero-3d-wrapper {
+    height: 320px;
+  }
   .desktop-nav,
   .desktop-only {
     display: none !important;

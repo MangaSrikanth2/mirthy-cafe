@@ -640,14 +640,14 @@
       width: 100%;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 110px 32px;
+      padding: 75px 32px 90px 32px;
       position: relative;
     }
 
     .section-header {
       text-align: center;
       max-width: 760px;
-      margin: 0 auto 56px auto;
+      margin: 0 auto 38px auto;
       position: relative;
     }
 
@@ -1523,10 +1523,10 @@
       .frame {
         width: 100vw;
         height: auto;
-        min-height: 100vh;
+        min-height: auto;
         overflow-x: hidden;
         overflow-y: visible;
-        padding-bottom: 50px;
+        padding-bottom: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1567,11 +1567,11 @@
         position: relative;
         left: auto;
         top: auto;
-        margin: 85px auto 16px auto;
+        margin: 68px auto 14px auto;
         width: auto;
         max-width: 90%;
-        height: 34px;
-        font-size: 13.5px;
+        height: 32px;
+        font-size: 13px;
         padding: 0 16px;
         display: flex;
         order: 1;
@@ -1589,19 +1589,19 @@
       .subline {
         position: relative;
         top: auto;
-        font-size: 15.5px;
-        line-height: 23px;
+        font-size: 15px;
+        line-height: 22px;
         padding: 0 24px;
-        margin-top: 14px;
-        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-bottom: 14px;
         order: 3;
       }
 
       .carousel-container {
         position: relative;
         width: 100%;
-        height: 260px;
-        margin: 10px 0 24px 0;
+        height: 240px;
+        margin: 6px 0 16px 0;
         order: 4;
       }
 
@@ -1615,9 +1615,9 @@
         top: auto;
         margin: 0 auto;
         display: flex;
-        width: 190px;
-        height: 54px;
-        font-size: 16px;
+        width: 184px;
+        height: 48px;
+        font-size: 15.5px;
         order: 5;
       }
 
@@ -1625,7 +1625,7 @@
         position: relative;
         left: auto;
         top: auto;
-        margin-top: 14px;
+        margin-top: 8px;
         text-align: center;
         order: 6;
       }
@@ -1651,7 +1651,11 @@
       }
 
       .content-section {
-        padding: 70px 20px;
+        padding: 44px 20px 60px 20px;
+      }
+
+      .section-header {
+        margin-bottom: 32px;
       }
 
       .menu-cards-grid {
@@ -1696,7 +1700,7 @@
 
       .frame {
         --u: calc(100vw / 440);
-        padding-bottom: 40px;
+        padding-bottom: 16px;
       }
 
       .logo {
@@ -1710,9 +1714,9 @@
       }
 
       .badge {
-        margin: 80px auto 14px auto;
+        margin: 60px auto 10px auto;
         font-size: 12px;
-        height: 30px;
+        height: 28px;
         padding: 0 12px;
       }
 
@@ -1724,25 +1728,29 @@
 
       .subline {
         font-size: 14px;
-        line-height: 21px;
+        line-height: 20px;
         padding: 0 16px;
-        margin-top: 10px;
-        margin-bottom: 16px;
+        margin-top: 8px;
+        margin-bottom: 12px;
       }
 
       .carousel-container {
-        height: 236px;
-        margin: 6px 0 18px 0;
+        height: 220px;
+        margin: 4px 0 14px 0;
       }
 
       .btn-explore {
-        width: 176px;
-        height: 48px;
-        font-size: 15px;
+        width: 172px;
+        height: 44px;
+        font-size: 14.5px;
       }
 
       .content-section {
-        padding: 54px 16px;
+        padding: 38px 16px 48px 16px;
+      }
+
+      .section-header {
+        margin-bottom: 26px;
       }
 
       .section-title {
@@ -2576,11 +2584,11 @@
       lastPointerTime = performance.now();
       momentumVelocity = 0;
       totalDragDelta = 0;
-      gestureAxis = e.pointerType === 'mouse' ? 'horizontal' : null;
+      gestureAxis = null;
     });
 
     window.addEventListener('pointermove', (e) => {
-      // Never interrupt auto-scrolling when cursor is merely moving/hovering without pointer down
+      // Never interrupt page scrolling when pointer is not down or user is scrolling vertically
       if (!isPointerDown || gestureAxis === 'vertical') return;
 
       const currentX = e.clientX;
@@ -2589,21 +2597,23 @@
       const dyTotal = currentY - startY;
 
       if (gestureAxis === null) {
-        if (Math.abs(dxTotal) > 6 || Math.abs(dyTotal) > 6) {
-          if (Math.abs(dxTotal) >= Math.abs(dyTotal)) {
-            gestureAxis = 'horizontal';
-            isDragging = true;
-            container.classList.add('is-dragging');
-            document.body.classList.add('is-carousel-dragging');
-            try { container.setPointerCapture(e.pointerId); } catch (err) {}
-          } else {
-            gestureAxis = 'vertical';
-            return;
-          }
+        // If vertical movement is initiated, immediately hand off to native page scrolling
+        if (Math.abs(dyTotal) > 4 && Math.abs(dyTotal) >= Math.abs(dxTotal)) {
+          gestureAxis = 'vertical';
+          return;
+        }
+
+        // Only engage horizontal carousel dragging if horizontal gesture is clearly dominant
+        if (Math.abs(dxTotal) > 10 && Math.abs(dxTotal) > Math.abs(dyTotal) * 1.35) {
+          gestureAxis = 'horizontal';
+          isDragging = true;
+          container.classList.add('is-dragging');
+          document.body.classList.add('is-carousel-dragging');
+          try { container.setPointerCapture(e.pointerId); } catch (err) {}
         } else {
           return;
         }
-      } else if (!isDragging && Math.abs(dxTotal) > 4) {
+      } else if (!isDragging && Math.abs(dxTotal) > 6) {
         isDragging = true;
         container.classList.add('is-dragging');
         document.body.classList.add('is-carousel-dragging');
@@ -3058,6 +3068,24 @@
       link.addEventListener('click', () => {
         const filterVal = link.getAttribute('data-filter');
         filterMenu(filterVal);
+      });
+    });
+
+    // Snappy, Butter-Smooth Anchor Navigation Handler
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#' || href === '#hero') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          const navHeight = window.innerWidth <= 820 ? 56 : 64;
+          const targetY = target.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({
+            top: targetY,
+            behavior: 'smooth'
+          });
+        }
       });
     });
 
