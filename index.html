@@ -497,6 +497,7 @@
       cursor: grab;
       z-index: 5;
       touch-action: pan-y;
+      overflow: hidden;
     }
 
     .carousel-container.is-dragging {
@@ -525,6 +526,11 @@
       z-index: 8;
     }
 
+    @keyframes skeletonShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
     .card-media-wrapper {
       position: absolute;
       top: 0;
@@ -532,7 +538,9 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: var(--mint-badge);
+      background: linear-gradient(90deg, #E2ECD4 25%, #EDF4E4 50%, #E2ECD4 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.8s infinite ease-in-out;
       contain: layout paint;
     }
 
@@ -543,10 +551,14 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 1;
-      transition: opacity 0.4s ease;
+      opacity: 0;
+      transition: opacity 0.3s ease;
       pointer-events: none;
       backface-visibility: hidden;
+    }
+
+    .card-poster.is-loaded {
+      opacity: 1;
     }
 
     .card-video {
@@ -1600,9 +1612,12 @@
       .carousel-container {
         position: relative;
         width: 100%;
+        max-width: 100vw;
         height: 240px;
         margin: 6px 0 16px 0;
         order: 4;
+        overflow: hidden !important;
+        contain: paint layout size;
       }
 
       .btn-ring {
@@ -1737,6 +1752,8 @@
       .carousel-container {
         height: 220px;
         margin: 4px 0 14px 0;
+        overflow: hidden !important;
+        contain: paint layout size;
       }
 
       .btn-explore {
@@ -2489,6 +2506,12 @@
       poster.alt = data.title;
       poster.draggable = false;
       poster.decoding = 'async';
+      poster.onload = function() {
+        this.classList.add('is-loaded');
+      };
+      if (poster.complete) {
+        poster.classList.add('is-loaded');
+      }
       poster.onerror = function() {
         if (!this.dataset.retried) {
           this.dataset.retried = '1';
@@ -2714,89 +2737,137 @@
       scrollOffset = ((scrollOffset % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
 
       const mobile = isMobile();
-      const centerTargetX = mobile ? (window.innerWidth / (2 * u)) : 720;
-      const normDiv = mobile ? (window.innerWidth / (2 * u)) : 706;
-      const viewportRight = (mobile ? window.innerWidth : 1440 * u) + 260;
-      const viewportLeft = -260;
 
-      for (let i = 0; i < NUM_CARDS; i++) {
-        const item = cardElements[i];
+      if (mobile) {
+        // MOBILE CAROUSEL: Decoupled, physically bounded within the 240px container
+        const centerPx = window.innerWidth / 2;
+        const cardW = Math.round(124 * u);
+        const baseH = Math.round(180 * u);
+        const pitchPx = Math.round(144 * u);
+        const totalSpanPx = NUM_CARDS * pitchPx;
+        const mobileOffsetPx = ((scrollOffset * u) % totalSpanPx + totalSpanPx) % totalSpanPx;
 
-        const nominal = i * PITCH + scrollOffset;
-        let t = ((nominal % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
-        if (t > TOTAL_SPAN / 2) {
-          t -= TOTAL_SPAN;
-        }
-
-        const tNorm = t / normDiv;
-        const pushFactor = 1 + 0.083 * (tNorm * tNorm);
-        const x = centerTargetX + t * pushFactor;
-
-        const d = Math.abs(x - centerTargetX) / normDiv;
-
-        const w_u = (mobile ? 140 : 170) + (mobile ? 36 : 48) * (d * d);
-        const W_px = w_u * u;
-
-        const x_left = x - w_u / 2;
-        const x_right = x + w_u / 2;
-        const x_left_px = x_left * u;
-        const x_right_px = x_right * u;
-
-        const isVisible = (x_right_px > viewportLeft) && (x_left_px < viewportRight);
-
-        if (!isVisible) {
-          if (item.card.style.visibility !== 'hidden') {
-            item.card.style.visibility = 'hidden';
+        for (let i = 0; i < NUM_CARDS; i++) {
+          const item = cardElements[i];
+          const nominal = i * pitchPx + mobileOffsetPx;
+          let t = ((nominal % totalSpanPx) + totalSpanPx) % totalSpanPx;
+          if (t > totalSpanPx / 2) {
+            t -= totalSpanPx;
           }
-          if (item.video && !item.video.paused) {
-            item.video.pause();
+
+          const xCenter = centerPx + t;
+          const xLeft = xCenter - cardW / 2;
+          const isVisible = (xLeft + cardW > -60) && (xLeft < window.innerWidth + 60);
+
+          if (!isVisible) {
+            if (item.card.style.visibility !== 'hidden') {
+              item.card.style.visibility = 'hidden';
+            }
+            continue;
           }
-          continue;
-        }
 
-        if (item.card.style.visibility !== 'visible') {
-          item.card.style.visibility = 'visible';
-        }
+          if (item.card.style.visibility !== 'visible') {
+            item.card.style.visibility = 'visible';
+          }
 
-        const q_left = Math.abs(x_left - centerTargetX) / normDiv;
-        const q_right = Math.abs(x_right - centerTargetX) / normDiv;
+          // Strict bounded scaling: 180u in center, gently tapering to 164u at edges
+          const dNorm = Math.min(1.0, Math.abs(t) / (centerPx || 200));
+          const currentH = Math.round(baseH - 16 * (dNorm * dNorm));
+          const yTop = Math.round((240 - currentH) / 2);
 
-        const h_left_u = (mobile ? 190 : 280) + (mobile ? 45 : 92) * Math.pow(q_left, 2.6);
-        const h_right_u = (mobile ? 190 : 280) + (mobile ? 45 : 92) * Math.pow(q_right, 2.6);
+          item.card.style.transform = `translate3d(${xLeft.toFixed(1)}px, ${yTop}px, 0)`;
 
-        const y_center_u = (mobile ? 125 : 687) - 12 * (d * d);
-
-        const tl_y_u = y_center_u - h_left_u / 2;
-        const tr_y_u = y_center_u - h_right_u / 2;
-        const bl_y_u = y_center_u + h_left_u / 2;
-        const br_y_u = y_center_u + h_right_u / 2;
-
-        const minY_u = Math.min(tl_y_u, tr_y_u);
-        const maxY_u = Math.max(bl_y_u, br_y_u);
-        const H_px = (maxY_u - minY_u) * u;
-        const minY_px = minY_u * u;
-
-        // Position via GPU translate3d without causing reflow
-        item.card.style.transform = `translate3d(${x_left_px.toFixed(1)}px, ${minY_px.toFixed(1)}px, 0)`;
-
-        // Only update width/height if changed by >= 0.5px to eliminate layout thrashing
-        if (Math.abs(W_px - (item.lastW || 0)) >= 0.5) {
-          item.card.style.width = `${W_px.toFixed(1)}px`;
-          item.lastW = W_px;
-        }
-        if (Math.abs(H_px - (item.lastH || 0)) >= 0.5) {
-          item.card.style.height = `${H_px.toFixed(1)}px`;
-          item.lastH = H_px;
-        }
-
-        if (mobile) {
-          // On mobile, use clean native rounded corners without GPU clipPath re-rasterization
+          if (Math.abs(cardW - (item.lastW || 0)) >= 0.5) {
+            item.card.style.width = `${cardW}px`;
+            item.lastW = cardW;
+          }
+          if (Math.abs(currentH - (item.lastH || 0)) >= 0.5) {
+            item.card.style.height = `${currentH}px`;
+            item.lastH = currentH;
+          }
           if (item.card.style.clipPath) {
             item.card.style.clipPath = '';
             item.card.style.webkitClipPath = '';
             item.lastPath = '';
           }
-        } else {
+        }
+      } else {
+        // DESKTOP CAROUSEL: High-precision curved showcase with strict bounds
+        const centerTargetX = 720;
+        const normDiv = 706;
+        const viewportRight = 1440 * u + 260;
+        const viewportLeft = -260;
+
+        for (let i = 0; i < NUM_CARDS; i++) {
+          const item = cardElements[i];
+
+          const nominal = i * PITCH + scrollOffset;
+          let t = ((nominal % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+          if (t > TOTAL_SPAN / 2) {
+            t -= TOTAL_SPAN;
+          }
+
+          const tNorm = Math.max(-1.5, Math.min(1.5, t / normDiv));
+          const pushFactor = 1 + 0.083 * (tNorm * tNorm);
+          const x = centerTargetX + t * pushFactor;
+
+          const d = Math.min(1.4, Math.abs(x - centerTargetX) / normDiv);
+
+          const w_u = Math.min(260, 170 + 48 * (d * d));
+          const W_px = w_u * u;
+
+          const x_left = x - w_u / 2;
+          const x_right = x + w_u / 2;
+          const x_left_px = x_left * u;
+          const x_right_px = x_right * u;
+
+          const isVisible = (x_right_px > viewportLeft) && (x_left_px < viewportRight);
+
+          if (!isVisible) {
+            if (item.card.style.visibility !== 'hidden') {
+              item.card.style.visibility = 'hidden';
+            }
+            if (item.video && !item.video.paused) {
+              item.video.pause();
+            }
+            continue;
+          }
+
+          if (item.card.style.visibility !== 'visible') {
+            item.card.style.visibility = 'visible';
+          }
+
+          const q_left = Math.min(1.4, Math.abs(x_left - centerTargetX) / normDiv);
+          const q_right = Math.min(1.4, Math.abs(x_right - centerTargetX) / normDiv);
+
+          const h_left_u = Math.min(480, 280 + 92 * Math.pow(q_left, 2.6));
+          const h_right_u = Math.min(480, 280 + 92 * Math.pow(q_right, 2.6));
+
+          const y_center_u = 687 - 12 * (d * d);
+
+          const tl_y_u = y_center_u - h_left_u / 2;
+          const tr_y_u = y_center_u - h_right_u / 2;
+          const bl_y_u = y_center_u + h_left_u / 2;
+          const br_y_u = y_center_u + h_right_u / 2;
+
+          const minY_u = Math.min(tl_y_u, tr_y_u);
+          const maxY_u = Math.max(bl_y_u, br_y_u);
+          const H_px = (maxY_u - minY_u) * u;
+          const minY_px = minY_u * u;
+
+          // Position via GPU translate3d without causing reflow
+          item.card.style.transform = `translate3d(${x_left_px.toFixed(1)}px, ${minY_px.toFixed(1)}px, 0)`;
+
+          // Only update width/height if changed by >= 0.5px to eliminate layout thrashing
+          if (Math.abs(W_px - (item.lastW || 0)) >= 0.5) {
+            item.card.style.width = `${W_px.toFixed(1)}px`;
+            item.lastW = W_px;
+          }
+          if (Math.abs(H_px - (item.lastH || 0)) >= 0.5) {
+            item.card.style.height = `${H_px.toFixed(1)}px`;
+            item.lastH = H_px;
+          }
+
           const tl_y_local = (tl_y_u - minY_u) * u;
           const tr_y_local = (tr_y_u - minY_u) * u;
           const br_y_local = (br_y_u - minY_u) * u;
