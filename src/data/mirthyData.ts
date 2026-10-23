@@ -14,12 +14,12 @@ export const BRAND_CONFIG: BrandConfig = {
     city: 'Hyderabad',
     state: 'Telangana',
     pincode: '500033',
-    full: 'Ground Floor, Plot No. 726, Road No. 36, CBI Colony, Jubilee Hills, Hyderabad, Telangana 500033',
+    full: 'Ground Floor, Plot No. 726, Road No. 36 (near Vurve Salon), CBI Colony, Jubilee Hills, Hyderabad, Telangana 500033',
     mapCoordinates: {
-      lat: 17.4334,
-      lng: 78.4063
+      lat: 17.4382631,
+      lng: 78.3987587
     },
-    googleMapsUrl: 'https://maps.google.com/?q=Mirthy+Patisserie+and+Cafe+Jubilee+Hills+Hyderabad'
+    googleMapsUrl: 'https://maps.app.goo.gl/SgHixwNMjMhj3acP8?g_st=aw'
   },
   hours: {
     days: 'Monday – Sunday',

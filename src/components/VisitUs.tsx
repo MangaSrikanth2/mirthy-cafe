@@ -134,7 +134,7 @@ export function VisitUs({ onOpenReserve }: VisitUsProps) {
               {/* Styled Interactive Map Embed */}
               <iframe
                 title="Mirthy Cafe Jubilee Hills Location Map"
-                src="https://maps.google.com/maps?q=Mirthy+Patisserie+and+Cafe+Road+No+36+Jubilee+Hills+Hyderabad&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=17.4382631,78.3987587+(Mirthy+Cafe)&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="280"
                 style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(1.1)' }}
