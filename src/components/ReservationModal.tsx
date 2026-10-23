@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BRAND_CONFIG } from '../data/mirthyData'
 import { X, Calendar, Clock, Users, CheckCircle2, MessageCircle, Sparkles } from 'lucide-react'
 import confetti from 'canvas-confetti'
@@ -22,6 +22,41 @@ export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [bookingRef, setBookingRef] = useState('')
 
+  const handleResetAndClose = () => {
+    setIsSubmitted(false)
+    setFormData({
+      name: '',
+      phone: '',
+      guests: '2 Guests',
+      date: '',
+      time: '04:00 PM',
+      type: 'Table for Dining',
+      notes: ''
+    })
+    onClose()
+  }
+
+  // Handle Escape key and body scroll lock
+  useEffect(() => {
+    if (!isOpen) return
+
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleResetAndClose()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = prevOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,22 +79,8 @@ export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
     }
   }
 
-  const handleResetAndClose = () => {
-    setIsSubmitted(false)
-    setFormData({
-      name: '',
-      phone: '',
-      guests: '2 Guests',
-      date: '',
-      time: '04:00 PM',
-      type: 'Table for Dining',
-      notes: ''
-    })
-    onClose()
-  }
-
   const generateWhatsAppMessage = () => {
-    const text = `Hello Mirthy Team! I would like to confirm my reservation/inquiry:
+    const text = `Hello Mirthy Team! I would like to submit my reservation inquiry:
 Ref: ${bookingRef}
 Type: ${formData.type}
 Name: ${formData.name}
@@ -67,7 +88,7 @@ Guests: ${formData.guests}
 Date: ${formData.date || 'Today'}
 Time: ${formData.time}
 Notes: ${formData.notes || 'None'}`
-    return `https://wa.me/919121288440?text=${encodeURIComponent(text)}`
+    return `https://wa.me/919032890327?text=${encodeURIComponent(text)}`
   }
 
   return (
@@ -105,7 +126,7 @@ Notes: ${formData.notes || 'None'}`
                 style={{ width: '100%' }}
               >
                 <MessageCircle size={16} />
-                <span>Confirm Instantly via WhatsApp</span>
+                <span>Forward Inquiry to WhatsApp (+91 9032890327)</span>
               </a>
 
               <button
@@ -152,7 +173,7 @@ Notes: ${formData.notes || 'None'}`
                 <input
                   type="tel"
                   required
-                  placeholder="e.g. +91 98765 43210"
+                  placeholder="e.g. +91 90328 90327"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="form-input"

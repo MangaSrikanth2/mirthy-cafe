@@ -5,17 +5,17 @@ import * as THREE from 'three'
 import { EntremetModel } from './EntremetModel'
 import { RotateCw, RefreshCcw, Layers } from 'lucide-react'
 
-// Golden Floating Dust Particles
+// Golden Floating Dust Particles (Optimized)
 function GoldenDust() {
   const pointsRef = useRef<THREE.Points>(null!)
-  const count = 80
+  const count = 35
 
   const { positions } = useRef(() => {
     const pos = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 7
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 4.5 + 0.3
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 7
+      pos[i * 3] = (Math.random() - 0.5) * 6
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 4 + 0.3
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 6
     }
     return { positions: pos }
   }).current()
@@ -37,11 +37,12 @@ function GoldenDust() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.055}
+        size={0.05}
         color="#f3d48d"
         transparent
         opacity={0.6}
         blending={THREE.AdditiveBlending}
+        depthWrite={false}
       />
     </points>
   )
@@ -85,7 +86,6 @@ function LayerAnnotation({
           style={{
             background: 'rgba(15, 10, 7, 0.92)',
             border: '1px solid rgba(197, 137, 64, 0.45)',
-            backdropFilter: 'blur(8px)',
             padding: '5px 12px',
             borderRadius: '6px',
             textAlign: side === 'left' ? 'right' : 'left'
@@ -111,6 +111,9 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
   const [isInspecting, setIsInspecting] = useState(false)
   const [autoRotate, setAutoRotate] = useState(true)
   const [hasWebGL, setHasWebGL] = useState(true)
+  const [isInView, setIsInView] = useState(true)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
   const controlsRef = useRef<any>(null)
 
   useEffect(() => {
@@ -121,11 +124,32 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
     } catch {
       setHasWebGL(false)
     }
+
+    if (typeof window !== 'undefined') {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setPrefersReducedMotion(mq.matches)
+      const listener = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+      mq.addEventListener('change', listener)
+      return () => mq.removeEventListener('change', listener)
+    }
+  }, [])
+
+  // Pause Three.js render loop when offscreen
+  useEffect(() => {
+    if (!containerRef.current || !('IntersectionObserver' in window)) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
   }, [])
 
   const handleReset = () => {
     setIsInspecting(false)
-    setAutoRotate(true)
+    setAutoRotate(!prefersReducedMotion)
     if (controlsRef.current) {
       controlsRef.current.reset()
     }
@@ -135,9 +159,12 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
     return (
       <div className="hero-fallback-container">
         <img
-          src="/images/hazelnut_obsidian.jpg"
+          src="/images/IMG_20261023_173944.jpg"
           alt="Hazelnut Obsidian signature entremet"
           className="hero-fallback-image"
+          width="480"
+          height="480"
+          fetchPriority="high"
         />
         <div className="hero-fallback-badge">
           <span>Signature Entremet</span>
@@ -147,42 +174,45 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
     )
   }
 
+  const isMobileDevice = typeof window !== 'undefined' && window.innerWidth <= 768
+
   return (
-    <div className="hero-canvas-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div
+      ref={containerRef}
+      className="hero-canvas-wrapper"
+      style={{ position: 'relative', width: '100%', height: '100%' }}
+    >
       <Canvas
         camera={{ position: [0, 2.1, 4.8], fov: 40 }}
-        shadows
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+        frameloop={isInView ? 'always' : 'never'}
+        dpr={isMobileDevice ? 1 : [1, 1.5]}
+        gl={{ antialias: !isMobileDevice, alpha: true, powerPreference: 'high-performance' }}
         onPointerDown={onInteract}
       >
         {/* Soft Ambient Fill */}
-        <ambientLight intensity={0.8} color="#523a2b" />
+        <ambientLight intensity={0.9} color="#523a2b" />
         
         {/* Key Directional Studio Light */}
         <directionalLight
           position={[4, 6, 4]}
-          intensity={2.8}
+          intensity={2.6}
           color="#fff5eb"
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-          shadow-bias={-0.0001}
         />
 
         {/* Cool Rim Light */}
         <directionalLight
           position={[-5, 4, -3]}
-          intensity={1.6}
+          intensity={1.4}
           color="#9bb7d4"
         />
 
         {/* Warm Golden Glow from front-below */}
-        <pointLight position={[0, -1.5, 3]} intensity={1.4} color="#c58940" />
+        <pointLight position={[0, -1.5, 3]} intensity={1.2} color="#c58940" />
 
         {/* Top Focused Spotlight */}
         <spotLight
           position={[0, 6, 1]}
-          intensity={1.8}
+          intensity={1.6}
           angle={0.6}
           penumbra={0.8}
           color="#fff0d0"
@@ -192,12 +222,19 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
         <Environment preset="apartment" background={false} />
 
         <Suspense fallback={null}>
-          <Float speed={isInspecting ? 0 : 1.4} rotationIntensity={isInspecting ? 0 : 0.15} floatIntensity={isInspecting ? 0 : 0.25}>
-            <EntremetModel isInspecting={isInspecting} rotationSpeed={autoRotate ? 0.6 : 0} />
+          <Float
+            speed={isInspecting || prefersReducedMotion ? 0 : 1.2}
+            rotationIntensity={isInspecting || prefersReducedMotion ? 0 : 0.12}
+            floatIntensity={isInspecting || prefersReducedMotion ? 0 : 0.2}
+          >
+            <EntremetModel
+              isInspecting={isInspecting}
+              rotationSpeed={autoRotate && !prefersReducedMotion ? 0.6 : 0}
+            />
           </Float>
 
           {/* Golden Floating Dust */}
-          <GoldenDust />
+          {!prefersReducedMotion && <GoldenDust />}
 
           {/* Layer Callouts when Inspecting */}
           {isInspecting && (
@@ -229,12 +266,12 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
             </>
           )}
 
-          {/* Contact Shadows on ground */}
+          {/* Soft Ground Contact Shadow */}
           <ContactShadows
             position={[0, -0.95, 0]}
-            opacity={0.65}
+            opacity={0.6}
             scale={5.5}
-            blur={2.2}
+            blur={2.0}
             far={3}
             color="#050302"
           />
@@ -247,7 +284,7 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
           minPolarAngle={Math.PI / 4.5}
           maxPolarAngle={Math.PI / 1.85}
           rotateSpeed={0.6}
-          autoRotate={autoRotate && !isInspecting}
+          autoRotate={autoRotate && !isInspecting && !prefersReducedMotion}
           autoRotateSpeed={1.0}
         />
       </Canvas>
@@ -270,13 +307,13 @@ export function HeroScene({ onInteract }: HeroSceneProps) {
 
         <button
           type="button"
-          className={`hud-btn ${autoRotate ? 'active' : ''}`}
+          className={`hud-btn ${autoRotate && !prefersReducedMotion ? 'active' : ''}`}
           onClick={() => setAutoRotate(!autoRotate)}
           title="Toggle 360° Auto-Rotation"
           aria-label="Toggle rotation"
         >
           <RotateCw size={14} />
-          <span>{autoRotate ? 'Rotating' : 'Paused'}</span>
+          <span>{autoRotate && !prefersReducedMotion ? 'Rotating' : 'Paused'}</span>
         </button>
 
         <button

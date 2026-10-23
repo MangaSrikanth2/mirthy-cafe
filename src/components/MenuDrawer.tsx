@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { SIGNATURE_DESSERTS, BAKERY_ITEMS, CAFE_ITEMS, BRAND_CONFIG } from '../data/mirthyData'
 import { MenuItem } from '../types'
 import { X, Search, Sparkles, Filter, ExternalLink, CheckCircle2 } from 'lucide-react'
@@ -38,10 +38,27 @@ export function MenuDrawer({ isOpen, onClose, onOpenReserve }: MenuDrawerProps) 
     })
   }, [allItems, activeCategory, searchQuery, egglessOnly])
 
+  // Lock body scroll and listen for Escape key when drawer is open
+  useEffect(() => {
+    if (!isOpen) return
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, onClose])
+
   if (!isOpen) return null
 
   return (
-    <div className="menu-drawer-backdrop" onClick={onClose}>
+    <div className="menu-drawer-backdrop" onClick={onClose} role="dialog" aria-modal="true">
       <div className="menu-drawer-panel" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="menu-drawer-header">
@@ -130,7 +147,15 @@ export function MenuDrawer({ isOpen, onClose, onOpenReserve }: MenuDrawerProps) 
               {filteredItems.map((item) => (
                 <div key={item.id} className="menu-card glass-card">
                   <div className="menu-card-img-wrap">
-                    <img src={item.image} alt={item.name} className="menu-card-img" loading="lazy" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="menu-card-img"
+                      loading="lazy"
+                      width="88"
+                      height="88"
+                      decoding="async"
+                    />
                   </div>
                   <div className="menu-card-info">
                     <div className="menu-card-top">
@@ -155,7 +180,7 @@ export function MenuDrawer({ isOpen, onClose, onOpenReserve }: MenuDrawerProps) 
                       </div>
 
                       <a
-                        href={`https://wa.me/919121288440?text=Hello%20Mirthy%2C%20I%20would%20like%20to%20order%20or%20inquire%20about%20the%20${encodeURIComponent(item.name)}.`}
+                        href={`https://wa.me/919032890327?text=Hello%20Mirthy%2C%20I%20would%20like%20to%20order%20or%20inquire%20about%20the%20${encodeURIComponent(item.name)}.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="card-inquire-link"

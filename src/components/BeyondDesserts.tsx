@@ -63,10 +63,13 @@ export function BeyondDesserts() {
           <div className="beyond-hero-grid">
             <div className="beyond-hero-img-wrap">
               <img
-                src="/images/specialty_coffee_brunch.jpg"
+                src="/images/IMG_20261023_174019.jpg"
                 alt="Specialty swan latte art coffee, truffle scrambled egg brioche, and heirloom burrata"
                 className="beyond-hero-img"
                 loading="lazy"
+                width="540"
+                height="380"
+                decoding="async"
               />
               <div className="beyond-hero-badge">
                 <Sparkles size={13} />

@@ -13,13 +13,39 @@ export function Navbar({ onOpenMenu, onOpenReserve, isAudioPlaying, onToggleAudi
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // Passive coalesced scroll handler with RAF throttling
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 40
+          setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev))
+          ticking = false
+        })
+        ticking = true
+      }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Lock body scroll and handle Escape key when mobile menu is open
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [mobileMenuOpen])
 
   const navLinks = [
     { label: 'Our Craft', href: '#our-craft' },
@@ -40,14 +66,14 @@ export function Navbar({ onOpenMenu, onOpenReserve, isAudioPlaying, onToggleAudi
           left: 0,
           right: 0,
           zIndex: 100,
-          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: 'background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease',
           background: isScrolled
-            ? 'rgba(15, 10, 7, 0.92)'
+            ? 'rgba(15, 10, 7, 0.95)'
             : 'linear-gradient(180deg, rgba(15, 10, 7, 0.85) 0%, rgba(15, 10, 7, 0) 100%)',
-          backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-          WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
+          backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(12px)' : 'none',
           borderBottom: isScrolled ? '1px solid rgba(197, 137, 64, 0.2)' : '1px solid transparent',
-          padding: isScrolled ? '0.9rem 0' : '1.4rem 0'
+          padding: isScrolled ? '0.9rem 0' : '1.3rem 0'
         }}
       >
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

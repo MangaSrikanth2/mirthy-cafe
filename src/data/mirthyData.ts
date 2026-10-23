@@ -30,8 +30,8 @@ export const BRAND_CONFIG: BrandConfig = {
   socials: {
     instagram: 'https://www.instagram.com/mirthycafe/',
     instagramHandle: '@mirthycafe',
-    phone: '+91 91212 88440',
-    whatsapp: 'https://wa.me/919121288440?text=Hello%20Mirthy%20Team%2C%20I%20would%20like%20to%20inquire%20about%20a%20table%20reservation%20or%20bespoke%20dessert.',
+    phone: '+91 9032890327',
+    whatsapp: 'https://wa.me/919032890327?text=Hello%20Mirthy%20Team%2C%20I%20would%20like%20to%20inquire%20about%20a%20table%20reservation%20or%20bespoke%20dessert.',
     email: 'hello@mirthycafe.com'
   }
 }
@@ -46,7 +46,7 @@ export const SIGNATURE_DESSERTS: MenuItem[] = [
     description: 'Our crowned signature entremet. Sculpted into an organic obsidian pebble, coated with jet-black mirror glaze, adorned with 24k gold leaf foil, encasing a silky 70% dark chocolate mousse and salted caramel center.',
     flavorNotes: ['Piedmont Hazelnut', '70% Valrhona Dark Mousse', 'Salted Fleur de Sel Caramel', 'Crisp Feuilletine Base'],
     dietary: ['Signature', 'Contains Nuts', 'Chef Special'],
-    image: '/images/hazelnut_obsidian.jpg',
+    image: '/images/IMG_20261023_173944.jpg',
     layers: [
       'Obsidian Jet-Black Mirror Glaze with 24K Gold Foil',
       'Valrhona Guanaja 70% Dark Chocolate Mousse',
@@ -64,7 +64,7 @@ export const SIGNATURE_DESSERTS: MenuItem[] = [
     description: 'An architectural trompe-l’œil sculpted cherry coated in a gleaming ruby glaze. Beneath the delicate shell lies tart Morello cherry compote and airy Tahitian vanilla bean chantilly.',
     flavorNotes: ['Morello Cherry Compote', 'Tahitian Vanilla Chantilly', 'Handcrafted Chocolate Stem', 'Almond Pâte Sablée'],
     dietary: ['Signature', 'Contains Nuts', 'Contains Dairy'],
-    image: '/images/the_cherry.jpg',
+    image: '/images/IMG_20261023_173924.jpg',
     layers: [
       'Mirror Ruby Glaze with 24K Flecks',
       'Tahitian Vanilla Bean Whipped Ganache',
@@ -82,7 +82,7 @@ export const SIGNATURE_DESSERTS: MenuItem[] = [
     description: 'Hyderabad’s benchmark Basque-inspired cheesecake. Baked at intense heat to achieve a deeply caramelized blistered crown with an unctuous, molten Madagascar vanilla bean center.',
     flavorNotes: ['Caramelized Crust', 'Molten Cream Cheese Center', 'Madagascar Vanilla Pods', 'Seasonal Berry Reduction'],
     dietary: ['Signature', 'Contains Dairy'],
-    image: '/images/mirthy_cheesecake.jpg',
+    image: '/images/IMG_20261023_174003.jpg',
     layers: [
       'Charred Caramelized Basque Crown',
       'Molten French Cream Cheese Core',
@@ -100,7 +100,7 @@ export const SIGNATURE_DESSERTS: MenuItem[] = [
     description: 'A tribute to pure Sicilian Bronte pistachios. A velvet-sprayed sculpted pod revealing slow-roasted stone-ground pistachio praliné, white chocolate crunch, and pistachio dacquoise.',
     flavorNotes: ['Bronte Pistachio Velvet', 'Stone-Ground Praliné', 'Spun White Chocolate', 'Sablé Crunch'],
     dietary: ['Signature', 'Contains Nuts', 'Contains Dairy'],
-    image: '/images/the_pistachio.jpg',
+    image: '/images/IMG_20261023_173907.jpg',
     layers: [
       'Velvet Pastel Green Cocoa Spray',
       'Light Pistachio Diplomat Cream',
@@ -121,7 +121,7 @@ export const BAKERY_ITEMS: MenuItem[] = [
     description: 'Laminated with AOP Isigny Sainte-Mère butter over 72 hours. Delicate golden shatter, deep caramel aroma, and an open, airy honeycomb crumb.',
     flavorNotes: ['French Cultured Butter', 'Subtle Maldon Salt', 'Caramelized Flaky Crust'],
     dietary: ['Contains Dairy'],
-    image: '/images/viennoiserie_spread.jpg'
+    image: '/images/IMG_20261023_173833.jpg'
   },
   {
     id: 'pain-au-chocolat',
@@ -132,7 +132,7 @@ export const BAKERY_ITEMS: MenuItem[] = [
     description: 'Two parallel bars of single-origin Valrhona 55% dark chocolate baked into our signature laminated dough for a warm molten center.',
     flavorNotes: ['Valrhona 55% Batons', 'Golden Laminated Pastry', 'Rich Butter Finish'],
     dietary: ['Contains Dairy'],
-    image: '/images/viennoiserie_spread.jpg'
+    image: '/images/IMG_20261023_173815.jpg'
   },
   {
     id: 'kouign-amann',
@@ -143,7 +143,7 @@ export const BAKERY_ITEMS: MenuItem[] = [
     description: 'Layered with cultured butter and cane sugar that caramelizes during slow stone-deck baking, creating a crunch that gives way to a tender, buttery core.',
     flavorNotes: ['Slow-Caramelized Sugar', 'Salted French Butter', 'Crispy Golden Edges'],
     dietary: ['Contains Dairy'],
-    image: '/images/viennoiserie_spread.jpg'
+    image: '/images/IMG_20261023_173833.jpg'
   },
   {
     id: 'almond-frangipane',
@@ -154,7 +154,7 @@ export const BAKERY_ITEMS: MenuItem[] = [
     description: 'Twice-baked croissant soaked in subtle vanilla bean syrup, filled with rich roasted almond frangipane, and crowned with toasted flaked almonds.',
     flavorNotes: ['Roasted Almond Cream', 'Vanilla Syrup Soaked', 'Toasted Flaked Almonds'],
     dietary: ['Contains Nuts', 'Contains Dairy'],
-    image: '/images/viennoiserie_spread.jpg'
+    image: '/images/IMG_20261023_173815.jpg'
   }
 ]
 
@@ -168,7 +168,7 @@ export const CAFE_ITEMS: MenuItem[] = [
     description: 'Precision extracted double shot of high-altitude shade-grown Arabica from Araku Valley, paired with textured microfoam poured with swan latte art.',
     flavorNotes: ['Dark Chocolate', 'Candied Orange', 'Velvety Microfoam'],
     dietary: ['Contains Dairy'],
-    image: '/images/specialty_coffee_brunch.jpg'
+    image: '/images/IMG_20261023_174019.jpg'
   },
   {
     id: 'truffle-brioche-eggs',
@@ -179,7 +179,7 @@ export const CAFE_ITEMS: MenuItem[] = [
     description: 'Silky French scrambled eggs gently folded with black summer truffle paste, chives, and parmesan, piled high on toasted house-baked brioche.',
     flavorNotes: ['Black Summer Truffle', 'French Butter Brioche', 'Fresh Chives'],
     dietary: ['Signature', 'Contains Dairy'],
-    image: '/images/specialty_coffee_brunch.jpg'
+    image: '/images/IMG_20261023_173757.jpg'
   },
   {
     id: 'burrata-heirloom-tartine',
@@ -190,7 +190,7 @@ export const CAFE_ITEMS: MenuItem[] = [
     description: 'Fresh creamy artisanal burrata paired with marinated multi-color heirloom tomatoes, cold-pressed basil olive oil, and balsamic glaze on toasted sourdough.',
     flavorNotes: ['Artisanal Burrata', 'Heirloom Tomatoes', 'Cold-Pressed Basil Oil'],
     dietary: ['Contains Dairy'],
-    image: '/images/specialty_coffee_brunch.jpg'
+    image: '/images/IMG_20261023_173757.jpg'
   },
   {
     id: 'madagascar-gelato',
@@ -201,7 +201,7 @@ export const CAFE_ITEMS: MenuItem[] = [
     description: 'Slow-churned daily in-house using pure milk and natural ingredients. Flavors include Madagascar Bourbon Vanilla, Bronte Pistachio, and 70% Dark Chocolate Affogato.',
     flavorNotes: ['Madagascar Vanilla Bean', 'Bronte Pistachio', 'Espresso Affogato'],
     dietary: ['Contains Dairy'],
-    image: '/images/the_pistachio.jpg'
+    image: '/images/IMG_20261023_174047.jpg'
   }
 ]
 

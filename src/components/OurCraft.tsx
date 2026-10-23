@@ -22,10 +22,13 @@ export function OurCraft() {
           <div className="craft-media-card glass-card">
             <div className="craft-img-container">
               <img
-                src="/images/pastry_chef_craft.jpg"
+                src="/images/IMG_20261023_173944.jpg"
                 alt="Pastry Chef applying 24k gold leaf to chocolate entremet at Mirthy atelier"
                 className="craft-image"
+                width="600"
+                height="450"
                 loading="lazy"
+                decoding="async"
               />
               <div className="craft-img-overlay" />
             </div>

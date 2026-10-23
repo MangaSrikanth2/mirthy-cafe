@@ -95,7 +95,7 @@ export function EntremetModel({
   }, [])
 
   // Geometries for organic pebble entremet
-  const { pebbleGeom, mousseGeom, coreGeom, baseGeom, slateGeom, goldFlakeGeoms } = useMemo(() => {
+  const { pebbleGeom, mousseGeom, coreGeom, baseGeom, slateGeom, goldFlakeGeoms, hazelnutGeom } = useMemo(() => {
     // Sculpted organic pebble
     const pGeom = new THREE.SphereGeometry(1.25, 64, 48)
     pGeom.scale(1.18, 0.72, 1.05)
@@ -130,13 +130,17 @@ export function EntremetModel({
       })
     })
 
+    // Roasted hazelnut half geometry (cached)
+    const hGeom = new THREE.SphereGeometry(1, 14, 12)
+
     return {
       pebbleGeom: pGeom,
       mousseGeom: mGeom,
       coreGeom: cGeom,
       baseGeom: bGeom,
       slateGeom: sGeom,
-      goldFlakeGeoms: flakes
+      goldFlakeGeoms: flakes,
+      hazelnutGeom: hGeom
     }
   }, [])
 
@@ -157,7 +161,6 @@ export function EntremetModel({
     const targetMousseY = isInspecting ? 0.45 : -0.2
     const targetCoreY = isInspecting ? -0.05 : -0.35
     const targetBaseY = isInspecting ? -0.65 : -0.55
-    const targetSlateY = isInspecting ? -1.05 : -0.75
 
     if (topLayerRef.current) {
       topLayerRef.current.position.y = THREE.MathUtils.lerp(topLayerRef.current.position.y, targetTopY, 0.1)
@@ -180,8 +183,6 @@ export function EntremetModel({
         <mesh
           geometry={pebbleGeom}
           material={materials.mirrorGlaze}
-          castShadow
-          receiveShadow
         />
 
         {/* 24K Gold Leaf Accents */}
@@ -193,7 +194,6 @@ export function EntremetModel({
               material={materials.goldLeaf}
               position={f.pos}
               rotation={f.rot}
-              castShadow
             />
           ))}
         </group>
@@ -205,8 +205,6 @@ export function EntremetModel({
           <mesh
             geometry={mousseGeom}
             material={materials.chocolateMousse}
-            castShadow
-            receiveShadow
           />
         )}
       </group>
@@ -217,7 +215,6 @@ export function EntremetModel({
           <mesh
             geometry={coreGeom}
             material={materials.caramelCore}
-            castShadow
           />
         )}
       </group>
@@ -227,11 +224,9 @@ export function EntremetModel({
         <mesh
           geometry={baseGeom}
           material={materials.pralineBase}
-          castShadow
-          receiveShadow
         />
 
-        {/* Roasted Hazelnut Halves around the perimeter */}
+        {/* Roasted Hazelnut Halves around the perimeter (shared geometry) */}
         {[0, 0.9, 1.8, 2.7, 3.6, 4.5, 5.4].map((angle, i) => {
           const radius = 1.34
           const x = Math.cos(angle) * radius
@@ -241,11 +236,9 @@ export function EntremetModel({
               key={i}
               position={[x, 0.08, z]}
               scale={[0.11, 0.11, 0.11]}
+              geometry={hazelnutGeom}
               material={materials.hazelnut}
-              castShadow
-            >
-              <sphereGeometry args={[1, 16, 16]} />
-            </mesh>
+            />
           )
         })}
       </group>

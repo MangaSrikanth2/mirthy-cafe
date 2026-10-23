@@ -36,7 +36,15 @@ export function SignatureCreations({ onOpenReserve }: SignatureCreationsProps) {
               onClick={() => setActiveId(item.id)}
             >
               <div className="tab-thumb-wrapper">
-                <img src={item.image} alt={item.name} className="tab-thumb-img" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="tab-thumb-img"
+                  width="44"
+                  height="44"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="tab-text-wrap">
                 <span className="tab-item-name">{item.name}</span>
@@ -56,6 +64,9 @@ export function SignatureCreations({ onOpenReserve }: SignatureCreationsProps) {
                   src={activeDessert.image}
                   alt={activeDessert.name}
                   className="showcase-main-image"
+                  width="540"
+                  height="420"
+                  decoding="async"
                 />
                 <div className="showcase-img-badge">
                   <Sparkles size={13} />
@@ -143,7 +154,15 @@ export function SignatureCreations({ onOpenReserve }: SignatureCreationsProps) {
               onClick={() => setActiveId(item.id)}
             >
               <div className="quad-img-wrap">
-                <img src={item.image} alt={item.name} className="quad-img" loading="lazy" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="quad-img"
+                  loading="lazy"
+                  width="280"
+                  height="200"
+                  decoding="async"
+                />
                 <span className="quad-price-badge">₹{item.price}</span>
               </div>
               <div className="quad-content">

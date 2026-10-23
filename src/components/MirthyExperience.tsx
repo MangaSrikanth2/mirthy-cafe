@@ -53,10 +53,13 @@ export function MirthyExperience() {
             {/* Real Interior Photography */}
             <div className="experience-media-wrap">
               <img
-                src="/images/mirthy_cafe_interior.jpg"
+                src="/images/IMG_20261023_173757.jpg"
                 alt="Interior architecture of Mirthy Patisserie & Cafe in Jubilee Hills, Hyderabad"
                 className="experience-main-img"
+                width="640"
+                height="480"
                 loading="lazy"
+                decoding="async"
               />
               <div className="experience-tag">
                 <Sparkles size={13} />

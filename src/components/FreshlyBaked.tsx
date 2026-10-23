@@ -68,6 +68,9 @@ export function FreshlyBaked() {
                   alt={item.name}
                   className="bakes-card-img"
                   loading="lazy"
+                  width="340"
+                  height="220"
+                  decoding="async"
                 />
                 <span className="bakes-step-badge">Fold 0{idx + 1}</span>
               </div>
