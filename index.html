@@ -1,0 +1,3269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirthy — Artisan Patisserie &amp; Café | Hyderabad</title>
+  <meta name="description" content="Come for the desserts. Stay for the mirth. Artisan desserts, buttery viennoiserie, and beautiful coffee in Jubilee Hills, Hyderabad.">
+  <link rel="icon" type="image/jpeg" href="public/Mirthylogo.jpg">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mirthy Patisserie &amp; Café — Crafted to Delight">
+  <meta property="og:description" content="Come for the desserts. Stay for the mirth. Artisan desserts, buttery viennoiserie and beautiful coffee in Hyderabad.">
+  <meta property="og:image" content="public/Mirthylogo.jpg">
+
+  <!-- Google Fonts: Cormorant Garamond 500/600, Inter Tight 700, Inter 400/500/600, Caveat 600 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter+Tight:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       MIRTHY PATISSERIE & CAFÉ — PRESERVED REELMARK DESIGN SYSTEM
+       Strictly Preserved Reference Palette:
+       - Background: #F5F8EF (warm off-white)
+       - Forest green: #08482D
+       - Forest green hover: #053320
+       - Mint badge: #DAE7C7
+       - Headline: #101410
+       - Secondary text: #5E5E61
+       - White: #FFFFFF
+       ========================================================================== */
+    :root {
+      --u: min(100vw / 1440, 100vh / 1080);
+      --bg-page: #F5F8EF;
+      --forest-green: #08482D;
+      --forest-green-hover: #053320;
+      --forest-green-light: rgba(8, 72, 45, 0.08);
+      --mint-badge: #DAE7C7;
+      --mint-badge-light: rgba(218, 231, 199, 0.45);
+      --ink: #101410;
+      --subline: #5E5E61;
+      --white: #FFFFFF;
+      --border-subtle: rgba(8, 72, 45, 0.12);
+      --radius-pill: 9999px;
+      --radius-card: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background-color: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Isolated selection prevention during drag */
+    body.is-carousel-dragging {
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      cursor: grabbing !important;
+    }
+
+    body.is-carousel-dragging * {
+      cursor: grabbing !important;
+    }
+
+    /* Accessible High-Contrast Focus Visible Rings */
+    :focus-visible {
+      outline: 2px solid var(--forest-green);
+      outline-offset: 3px;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 2px solid var(--forest-green);
+      outline-offset: 3px;
+    }
+
+    .page-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* --------------------------------------------------------------------------
+       FLOATING STICKY HEADER (Appears on Scroll)
+       -------------------------------------------------------------------------- */
+    .sticky-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(245, 248, 239, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 90;
+      transform: translateY(-100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sticky-nav.is-visible {
+      transform: translateY(0);
+    }
+
+    .sticky-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .sticky-logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .sticky-logo span,
+    .sticky-logo-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: 21px;
+      color: var(--forest-green);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .sticky-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .sticky-link {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .sticky-link:hover {
+      color: var(--forest-green);
+    }
+
+    .sticky-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sticky-btn-reserve {
+      padding: 8px 18px;
+      background: var(--forest-green);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .sticky-btn-reserve:hover {
+      background: var(--forest-green-hover);
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------------------------------------------------
+       HERO SECTION — 1440×1080 Contained & Centred Frame
+       -------------------------------------------------------------------------- */
+    .hero-section {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-color: var(--bg-page);
+    }
+
+    .frame {
+      position: relative;
+      width: calc(1440 * var(--u));
+      height: calc(1080 * var(--u));
+      background-color: var(--bg-page);
+      overflow: hidden;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* TOP BAR */
+    .logo {
+      position: absolute;
+      left: calc(37 * var(--u));
+      top: calc(36 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(11 * var(--u));
+      text-decoration: none;
+      cursor: pointer;
+      z-index: 30;
+      transition: transform 0.2s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.02);
+    }
+
+    .logo-img {
+      width: calc(34 * var(--u));
+      height: calc(34 * var(--u));
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 4px rgba(8, 72, 45, 0.2);
+      border: 1px solid rgba(8, 72, 45, 0.15);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 500;
+      font-size: calc(25 * var(--u));
+      letter-spacing: calc(3 * var(--u));
+      text-transform: uppercase;
+      color: var(--forest-green);
+      line-height: 1;
+    }
+
+    .nav-bar {
+      position: absolute;
+      left: calc(505 * var(--u));
+      top: calc(38 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(28 * var(--u));
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(16.4 * var(--u));
+      color: var(--ink);
+      z-index: 30;
+      white-space: nowrap;
+    }
+
+    .nav-link {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--forest-green);
+    }
+
+    .nav-dot {
+      color: #9AA096;
+      font-weight: 400;
+      user-select: none;
+    }
+
+    .top-actions {
+      position: absolute;
+      top: calc(29 * var(--u));
+      right: calc(39 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+      z-index: 30;
+    }
+
+    .btn-find-us {
+      width: calc(96 * var(--u));
+      height: calc(40 * var(--u));
+      background: var(--white);
+      color: var(--ink);
+      border: 1px solid rgba(8, 72, 45, 0.14);
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(15 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-find-us:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      border-color: rgba(8, 72, 45, 0.3);
+    }
+
+    .btn-reserve {
+      width: calc(104 * var(--u));
+      height: calc(40 * var(--u));
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(15 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(8, 72, 45, 0.2);
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-reserve:hover {
+      transform: translateY(-1px);
+      background-color: var(--forest-green-hover);
+      box-shadow: 0 4px 12px rgba(8, 72, 45, 0.3);
+    }
+
+    /* MINT BADGE & TYPOGRAPHY */
+    .badge {
+      position: absolute;
+      left: calc(574 * var(--u));
+      top: calc(115 * var(--u));
+      width: calc(292 * var(--u));
+      height: calc(37 * var(--u));
+      background-color: var(--mint-badge);
+      color: var(--forest-green);
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(15.2 * var(--u));
+      letter-spacing: -0.01em;
+      z-index: 10;
+      white-space: nowrap;
+      padding: 0 calc(12 * var(--u));
+    }
+
+    .headline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(176 * var(--u));
+      text-align: center;
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 700;
+      font-size: calc(88 * var(--u));
+      line-height: calc(92 * var(--u));
+      color: var(--ink);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .headline-line-1 {
+      display: block;
+      letter-spacing: -0.035em;
+    }
+
+    .headline-line-2 {
+      display: block;
+      letter-spacing: -0.022em;
+    }
+
+    .subline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(394 * var(--u));
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: calc(20.4 * var(--u));
+      line-height: calc(32 * var(--u));
+      color: var(--subline);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* HAND-DRAWN ANNOTATIONS & SVG DOODLES */
+    .doodle-slashes {
+      position: absolute;
+      left: calc(263 * var(--u));
+      top: calc(377 * var(--u));
+      width: calc(28 * var(--u));
+      height: calc(26 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .note-love-wrap {
+      position: absolute;
+      left: calc(1212 * var(--u));
+      top: calc(310 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .note-love {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: calc(31 * var(--u));
+      line-height: 1.1;
+      color: var(--forest-green);
+      transform: rotate(16deg);
+      transform-origin: 0 0;
+      white-space: nowrap;
+    }
+
+    .svg-arrow-love {
+      position: absolute;
+      left: calc(1172 * var(--u));
+      top: calc(362 * var(--u));
+      width: calc(124 * var(--u));
+      height: calc(185 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+      overflow: visible;
+    }
+
+    .note-fresh-wrap {
+      position: absolute;
+      left: calc(485 * var(--u));
+      top: calc(942 * var(--u));
+      pointer-events: none;
+      z-index: 16;
+    }
+
+    .note-fresh {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: calc(26 * var(--u));
+      color: var(--forest-green);
+      transform: rotate(24deg);
+      transform-origin: 50% 50%;
+      white-space: nowrap;
+    }
+
+    .svg-arrow-fresh {
+      position: absolute;
+      left: calc(560 * var(--u));
+      top: calc(918 * var(--u));
+      width: calc(65 * var(--u));
+      height: calc(40 * var(--u));
+      pointer-events: none;
+      z-index: 16;
+      overflow: visible;
+    }
+
+    .doodle-stroke {
+      stroke: var(--forest-green);
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* CURVED VIDEO CAROUSEL */
+    .carousel-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      z-index: 5;
+      touch-action: pan-y;
+    }
+
+    .carousel-container.is-dragging {
+      cursor: grabbing;
+    }
+
+    .video-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      will-change: transform;
+      contain: layout style;
+      pointer-events: auto;
+      border-radius: 0;
+      cursor: pointer;
+      transform-origin: 0 0;
+      touch-action: pan-y;
+    }
+
+    .video-card:focus-visible {
+      outline: 3px solid var(--forest-green);
+      outline-offset: 4px;
+      z-index: 8;
+    }
+
+    .card-media-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--mint-badge);
+    }
+
+    .card-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .card-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .card-video.is-ready {
+      opacity: 1;
+    }
+
+    .frosted-play-btn {
+      position: absolute;
+      left: calc(12 * var(--u));
+      bottom: calc(12 * var(--u));
+      width: calc(30 * var(--u));
+      height: calc(30 * var(--u));
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(calc(6 * var(--u)));
+      -webkit-backdrop-filter: blur(calc(6 * var(--u)));
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+    }
+
+    .play-triangle {
+      width: calc(10 * var(--u));
+      height: calc(10 * var(--u));
+      margin-left: calc(2 * var(--u));
+      fill: var(--forest-green);
+    }
+
+    /* PRIMARY HERO CTA */
+    .btn-ring {
+      position: absolute;
+      left: calc(610 * var(--u));
+      top: calc(893 * var(--u));
+      width: calc(220 * var(--u));
+      height: calc(74 * var(--u));
+      border: calc(1.8 * var(--u)) dashed var(--forest-green);
+      border-radius: var(--radius-pill);
+      pointer-events: none;
+      z-index: 14;
+    }
+
+    .btn-explore {
+      position: absolute;
+      left: calc(619 * var(--u));
+      top: calc(901 * var(--u));
+      width: calc(202 * var(--u));
+      height: calc(58 * var(--u));
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: calc(17 * var(--u));
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 15;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(8, 72, 45, 0.25);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-explore:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(8, 72, 45, 0.35);
+      background: var(--forest-green-hover);
+    }
+
+    /* --------------------------------------------------------------------------
+       COMMON CONTENT SECTION STYLES
+       -------------------------------------------------------------------------- */
+    .content-section {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 110px 32px;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 56px auto;
+      position: relative;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--mint-badge);
+      color: var(--forest-green);
+      font-size: 14.5px;
+      font-weight: 600;
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: clamp(36px, 4.5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.6;
+      color: var(--subline);
+    }
+
+    .section-doodle-note {
+      position: absolute;
+      right: -80px;
+      top: 10px;
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 26px;
+      color: var(--forest-green);
+      transform: rotate(12deg);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    /* --------------------------------------------------------------------------
+       MENU SECTION (#menu)
+       -------------------------------------------------------------------------- */
+    .menu-tabs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .menu-tab-btn {
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      background: var(--white);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .menu-tab-btn:hover {
+      border-color: rgba(8, 72, 45, 0.3);
+      color: var(--forest-green);
+      transform: translateY(-1px);
+    }
+
+    .menu-tab-btn.is-active {
+      background: var(--forest-green);
+      color: var(--white);
+      border-color: var(--forest-green);
+      box-shadow: 0 4px 12px rgba(8, 72, 45, 0.2);
+    }
+
+    .menu-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    .menu-card {
+      background: var(--white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 16px rgba(8, 72, 45, 0.04);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(8, 72, 45, 0.12);
+      border-color: rgba(8, 72, 45, 0.3);
+    }
+
+    .menu-card-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: var(--mint-badge-light);
+    }
+
+    .menu-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .menu-card-img {
+      transform: scale(1.06);
+    }
+
+    .menu-card-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(245, 248, 239, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--forest-green);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(8, 72, 45, 0.12);
+    }
+
+    .menu-card-content {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .menu-card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+
+    .menu-card-title {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .menu-card-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--forest-green);
+      white-space: nowrap;
+    }
+
+    .menu-card-desc {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--subline);
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid rgba(8, 72, 45, 0.08);
+      font-size: 13px;
+      color: var(--forest-green);
+      font-weight: 500;
+    }
+
+    .menu-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--forest-green);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: gap 0.2s ease;
+    }
+
+    .menu-card:hover .menu-card-action {
+      gap: 8px;
+    }
+
+    /* --------------------------------------------------------------------------
+       OUR STORY & PHILOSOPHY SECTION (#story)
+       -------------------------------------------------------------------------- */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .story-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .story-lead {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 28px;
+      line-height: 1.35;
+      color: var(--ink);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .story-paragraph {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--subline);
+    }
+
+    .story-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .story-pillar-item {
+      display: flex;
+      gap: 16px;
+      padding: 18px 22px;
+      background: var(--white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(8, 72, 45, 0.03);
+    }
+
+    .pillar-num {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--forest-green);
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .pillar-info h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .pillar-info p {
+      font-size: 14px;
+      color: var(--subline);
+      line-height: 1.5;
+    }
+
+    .story-visual-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .story-visual-box {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 40px rgba(8, 72, 45, 0.12);
+    }
+
+    .story-visual-img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .story-dashed-ring {
+      position: absolute;
+      top: -16px;
+      left: -16px;
+      right: -16px;
+      bottom: -16px;
+      border: 2px dashed var(--forest-green);
+      border-radius: 36px;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .story-floating-note {
+      position: absolute;
+      bottom: -24px;
+      right: -20px;
+      background: var(--white);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 24px rgba(8, 72, 45, 0.14);
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-family: 'Caveat', cursive;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--forest-green);
+      transform: rotate(-4deg);
+      white-space: nowrap;
+    }
+
+    /* --------------------------------------------------------------------------
+       VISIT US & RESERVATION SECTION (#visit, #reserve)
+       -------------------------------------------------------------------------- */
+    .visit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .visit-card {
+      background: var(--white);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 40px;
+      box-shadow: 0 6px 24px rgba(8, 72, 45, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .visit-card-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--mint-badge);
+      color: var(--forest-green);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 18px;
+    }
+
+    .visit-card-title {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .visit-card-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--subline);
+      margin-bottom: 28px;
+    }
+
+    .visit-detail-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 22px;
+      align-items: flex-start;
+    }
+
+    .detail-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--mint-badge-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--forest-green);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .detail-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .detail-text p {
+      font-size: 14px;
+      color: var(--subline);
+      line-height: 1.5;
+    }
+
+    .amenities-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0 28px 0;
+    }
+
+    .amenity-chip {
+      background: var(--bg-page);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--forest-green);
+    }
+
+    .visit-actions-row {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+      flex-wrap: wrap;
+    }
+
+    .btn-solid-green {
+      flex: 1;
+      padding: 13px 22px;
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14.5px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(8, 72, 45, 0.2);
+      transition: background 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-solid-green:hover {
+      background: var(--forest-green-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-green {
+      flex: 1;
+      padding: 13px 22px;
+      background: var(--white);
+      color: var(--forest-green);
+      border: 1px solid rgba(8, 72, 45, 0.2);
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14.5px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-outline-green:hover {
+      background: var(--forest-green-light);
+      border-color: var(--forest-green);
+      transform: translateY(-1px);
+    }
+
+    /* RESERVATION FORM */
+    .reservation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-group-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      color: var(--ink);
+      background: var(--bg-page);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--forest-green);
+      box-shadow: 0 0 0 3px rgba(8, 72, 45, 0.12);
+      background: var(--white);
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(8, 72, 45, 0.25);
+      transition: background 0.2s ease, transform 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .form-submit-btn:hover {
+      background: var(--forest-green-hover);
+      transform: translateY(-1px);
+    }
+
+    .form-success-toast {
+      display: none;
+      padding: 14px 18px;
+      background: var(--mint-badge);
+      color: var(--forest-green);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* --------------------------------------------------------------------------
+       FOOTER
+       -------------------------------------------------------------------------- */
+    .site-footer {
+      width: 100%;
+      background: var(--white);
+      border-top: 1px solid var(--border-subtle);
+      padding: 80px 32px 40px;
+    }
+
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .footer-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      max-width: 380px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 14px;
+    }
+
+    .footer-logo img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .footer-logo span {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--forest-green);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .footer-tagline {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--subline);
+    }
+
+    .footer-links-group {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .footer-col h5 {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col a {
+      font-size: 14.5px;
+      color: var(--subline);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover {
+      color: var(--forest-green);
+    }
+
+    .footer-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid rgba(8, 72, 45, 0.08);
+      font-size: 13.5px;
+      color: var(--subline);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-note-hand {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--forest-green);
+      font-weight: 600;
+    }
+
+    /* --------------------------------------------------------------------------
+       INTERACTIVE MODAL OVERLAY (Menu / Details / Location)
+       -------------------------------------------------------------------------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 20, 16, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-page);
+      border: 1px solid rgba(8, 72, 45, 0.16);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(8, 72, 45, 0.2);
+      padding: 32px;
+      position: relative;
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.is-active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(8, 72, 45, 0.08);
+      border: none;
+      color: var(--forest-green);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(8, 72, 45, 0.16);
+      transform: rotate(90deg);
+    }
+
+    .modal-badge {
+      display: inline-block;
+      background: var(--mint-badge);
+      color: var(--forest-green);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-desc {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--subline);
+      margin-bottom: 24px;
+    }
+
+    .modal-list-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .modal-item-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 14px;
+      border: 1px solid rgba(8, 72, 45, 0.08);
+    }
+
+    .modal-item-info h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .modal-item-info p {
+      font-size: 13.5px;
+      color: var(--subline);
+    }
+
+    .modal-item-price {
+      font-weight: 700;
+      color: var(--forest-green);
+      font-size: 15px;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-btn-primary {
+      flex: 1;
+      padding: 14px;
+      background: var(--forest-green);
+      color: var(--white);
+      text-align: center;
+      text-decoration: none;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.2s ease;
+    }
+
+    .modal-btn-primary:hover {
+      background: var(--forest-green-hover);
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVE REFINEMENTS & DEVICE VIEWPORTS
+       (1440×1080, 1280×800, 1024×768, 820px, 768px, 430px, 390px, 360px)
+       -------------------------------------------------------------------------- */
+    @media (max-width: 1280px) {
+      .content-section {
+        padding: 90px 28px;
+      }
+      .menu-cards-grid {
+        gap: 20px;
+      }
+      .section-doodle-note {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .menu-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+      }
+      .story-grid {
+        grid-template-columns: 1fr;
+        gap: 44px;
+      }
+      .story-visual-wrap {
+        order: -1;
+      }
+      .visit-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .sticky-nav {
+        padding: 0 24px;
+      }
+      .sticky-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .hero-section {
+        min-height: auto;
+      }
+
+      .frame {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        --u: calc(100vw / 640);
+      }
+
+      .nav-bar, .btn-find-us {
+        display: none !important;
+      }
+
+      .logo {
+        left: 20px;
+        top: 24px;
+      }
+
+      .logo-img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .logo-text {
+        font-size: 20px;
+        letter-spacing: 2px;
+      }
+
+      .top-actions {
+        right: 20px;
+        top: 20px;
+      }
+
+      .btn-reserve {
+        width: 96px;
+        height: 38px;
+        font-size: 14px;
+      }
+
+      .badge {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 85px auto 16px auto;
+        width: auto;
+        max-width: 90%;
+        height: 34px;
+        font-size: 13.5px;
+        padding: 0 16px;
+        display: flex;
+        order: 1;
+      }
+
+      .headline {
+        position: relative;
+        top: auto;
+        font-size: clamp(34px, 7vw, 52px);
+        line-height: 1.08;
+        padding: 0 20px;
+        order: 2;
+      }
+
+      .subline {
+        position: relative;
+        top: auto;
+        font-size: 15.5px;
+        line-height: 23px;
+        padding: 0 24px;
+        margin-top: 14px;
+        margin-bottom: 20px;
+        order: 3;
+      }
+
+      .carousel-container {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        margin: 10px 0 24px 0;
+        order: 4;
+      }
+
+      .btn-ring {
+        display: none;
+      }
+
+      .btn-explore {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 0 auto;
+        display: flex;
+        width: 190px;
+        height: 54px;
+        font-size: 16px;
+        order: 5;
+      }
+
+      .note-fresh-wrap {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin-top: 14px;
+        text-align: center;
+        order: 6;
+      }
+
+      .note-fresh {
+        transform: rotate(0deg);
+        font-size: 22px;
+      }
+
+      .svg-arrow-fresh,
+      .doodle-slashes,
+      .note-love-wrap,
+      .svg-arrow-love,
+      .section-doodle-note {
+        display: none !important;
+      }
+
+      .content-section {
+        padding: 70px 20px;
+      }
+
+      .menu-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group-row {
+        grid-template-columns: 1fr;
+      }
+
+      .visit-card {
+        padding: 24px;
+      }
+
+      /* Prevent iOS Safari auto-zoom on input focus */
+      .form-input, .form-select {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sticky-nav {
+        padding: 0 16px;
+        height: 56px;
+      }
+
+      .sticky-logo img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .sticky-logo span,
+      .sticky-logo-text {
+        font-size: 17px;
+        letter-spacing: 0.12em;
+      }
+
+      .sticky-btn-reserve {
+        padding: 7px 14px;
+        font-size: 13px;
+      }
+
+      .frame {
+        --u: calc(100vw / 440);
+        padding-bottom: 40px;
+      }
+
+      .logo {
+        left: 16px;
+        top: 20px;
+      }
+
+      .top-actions {
+        right: 16px;
+        top: 16px;
+      }
+
+      .badge {
+        margin: 80px auto 14px auto;
+        font-size: 12px;
+        height: 30px;
+        padding: 0 12px;
+      }
+
+      .headline {
+        font-size: clamp(28px, 7.6vw, 36px);
+        line-height: 1.12;
+        padding: 0 16px;
+      }
+
+      .subline {
+        font-size: 14px;
+        line-height: 21px;
+        padding: 0 16px;
+        margin-top: 10px;
+        margin-bottom: 16px;
+      }
+
+      .carousel-container {
+        height: 236px;
+        margin: 6px 0 18px 0;
+      }
+
+      .btn-explore {
+        width: 176px;
+        height: 48px;
+        font-size: 15px;
+      }
+
+      .content-section {
+        padding: 54px 16px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .section-sub {
+        font-size: 14.5px;
+      }
+
+      .menu-tabs {
+        gap: 8px;
+        margin-bottom: 32px;
+      }
+
+      .menu-tab-btn {
+        padding: 8px 15px;
+        font-size: 13px;
+      }
+
+      .story-visual-img {
+        height: 320px;
+      }
+
+      .story-floating-note {
+        font-size: 19px;
+        padding: 8px 16px;
+        bottom: -14px;
+        right: -6px;
+      }
+
+      .modal-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+        max-height: 88vh;
+      }
+
+      .modal-title {
+        font-size: 24px;
+      }
+
+      .footer-links-group {
+        gap: 32px;
+      }
+
+      .visit-actions-row {
+        flex-direction: column;
+      }
+
+      .btn-solid-green, .btn-outline-green {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       ACCESSIBILITY: PREFERS REDUCED MOTION
+       -------------------------------------------------------------------------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .video-card {
+        transition: none !important;
+      }
+      .sticky-nav {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLOATING STICKY HEADER FOR SCROLLED STATE -->
+  <header class="sticky-nav" id="stickyNav" aria-label="Quick Navigation">
+    <a href="#heroFrame" class="sticky-logo" aria-label="Mirthy Home">
+      <img src="public/Mirthylogo.jpg" alt="Mirthy Emblem" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/Mirthylogo.jpg';}">
+      <span class="sticky-logo-text">MIRTHY CAFÉ</span>
+    </a>
+    <ul class="sticky-links">
+      <li><a href="#menu" class="sticky-link" data-filter="patisserie">Patisserie</a></li>
+      <li><a href="#menu" class="sticky-link" data-filter="bakes">Morning Bakes</a></li>
+      <li><a href="#menu" class="sticky-link" data-filter="cafe">Café Dining</a></li>
+      <li><a href="#story" class="sticky-link">Our Story</a></li>
+      <li><a href="#visit" class="sticky-link">Visit Us</a></li>
+    </ul>
+    <div class="sticky-actions">
+      <a href="#reserve" class="sticky-btn-reserve">Reserve Table</a>
+    </div>
+  </header>
+
+  <div class="page-container">
+
+    <!-- ========================================================================
+         SECTION 1: HERO SECTION — PRESERVED 1:1 REELMARK DESIGN
+         ======================================================================== -->
+    <section class="hero-section" id="hero">
+      <div class="frame" id="heroFrame">
+
+        <!-- TOP BAR: Logo, Nav, Buttons -->
+        <a href="#hero" class="logo" id="brandLogo" aria-label="Mirthy Patisserie &amp; Café">
+          <img src="public/Mirthylogo.jpg" alt="Mirthy Logo" class="logo-img" id="logoImg" fetchpriority="high" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/Mirthylogo.jpg';}">
+          <span class="logo-text">MIRTHY CAFÉ</span>
+        </a>
+
+        <!-- Centered navigation starting around x = 505 -->
+        <nav class="nav-bar" id="navBar" aria-label="Main Navigation">
+          <a href="#menu" class="nav-link" data-filter="patisserie">Patisserie</a>
+          <span class="nav-dot">·</span>
+          <a href="#menu" class="nav-link" data-filter="bakes">Bakes</a>
+          <span class="nav-dot">·</span>
+          <a href="#menu" class="nav-link" data-filter="cafe">Café</a>
+          <span class="nav-dot">·</span>
+          <a href="#story" class="nav-link">Our Story</a>
+          <span class="nav-dot">·</span>
+          <a href="#visit" class="nav-link">Visit Us</a>
+        </nav>
+
+        <!-- Top-Right Actions -->
+        <div class="top-actions" id="topActions">
+          <a href="#visit" class="btn-find-us" id="btnFindUs">Find Us</a>
+          <a href="#reserve" class="btn-reserve" id="btnReserve">Reserve</a>
+        </div>
+
+        <!-- MINT BADGE -->
+        <div class="badge" id="heroBadge">
+          Artisan Patisserie • Café • Hyderabad
+        </div>
+
+        <!-- TWO-LINE HEADLINE -->
+        <h1 class="headline" id="heroHeadline">
+          <span class="headline-line-1" id="headlineL1">Crafted to Delight</span>
+          <span class="headline-line-2" id="headlineL2">Made for Mirth</span>
+        </h1>
+
+        <!-- SUPPORTING SUBLINE -->
+        <p class="subline" id="heroSubline">
+          Artisan desserts, buttery viennoiserie and beautiful coffee.<br>
+          Discover little moments of joy, freshly made for you.
+        </p>
+
+        <!-- HAND-DRAWN ANNOTATIONS & SVG DOODLES -->
+        <svg class="doodle-slashes" id="doodleSlashes" viewBox="0 0 28 26" aria-hidden="true">
+          <path class="doodle-stroke" id="slash1" stroke-width="2.6" d="M 4,2 L 14,24" />
+          <path class="doodle-stroke" id="slash2" stroke-width="2.6" d="M 14,2 L 24,24" />
+        </svg>
+
+        <div class="note-love-wrap" id="noteLoveWrap">
+          <div class="note-love">Made with love</div>
+        </div>
+
+        <svg class="svg-arrow-love" id="arrowLove" viewBox="0 0 124 185" aria-hidden="true">
+          <path class="doodle-stroke" id="pathArrowLove" stroke-width="2" d="M 80,6 C 90,60 62,118 16,155" />
+          <path class="doodle-stroke" id="headArrowLove" stroke-width="2" d="M 12,141 L 16,155 L 29,153" />
+        </svg>
+
+        <div class="note-fresh-wrap" id="noteFreshWrap">
+          <div class="note-fresh">Freshly baked</div>
+        </div>
+
+        <svg class="svg-arrow-fresh" id="arrowFresh" viewBox="0 0 65 40" aria-hidden="true">
+          <path class="doodle-stroke" id="pathArrowFresh" stroke-width="2" d="M 6,28 C 24,32 44,23 58,8" />
+          <path class="doodle-stroke" id="headArrowFresh" stroke-width="2" d="M 44,8 L 58,8 L 56,22" />
+        </svg>
+
+        <!-- CURVED VIDEO CAROUSEL (10 Tall Cards) -->
+        <div class="carousel-container" id="carouselContainer" aria-label="Mirthy Patisserie visual showcase">
+          <!-- Dynamically generated via Vanilla JavaScript -->
+        </div>
+
+        <!-- PRIMARY CTA: "Explore Our Menu" inside dashed outline ring -->
+        <div class="btn-ring" id="btnRing" aria-hidden="true"></div>
+        <a href="#menu" class="btn-explore" id="btnExplore">Explore Our Menu</a>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 2: CURATED MENU SECTION
+         ======================================================================== -->
+    <section class="content-section" id="menu">
+      <div class="section-header">
+        <span class="section-badge">ARTISAN CURATIONS</span>
+        <h2 class="section-title">Sculpted Daily. Layered with Joy.</h2>
+        <p class="section-sub">From 48-hour slow-fermented French viennoiserie to architectural entremets and specialty estate coffee in Jubilee Hills.</p>
+        <div class="section-doodle-note">
+          <span>"Baked fresh each dawn"</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="menu-tabs" role="tablist">
+        <button class="menu-tab-btn is-active" data-cat="all" role="tab" aria-selected="true">All Curations</button>
+        <button class="menu-tab-btn" data-cat="patisserie" role="tab" aria-selected="false">Haute Patisserie</button>
+        <button class="menu-tab-btn" data-cat="bakes" role="tab" aria-selected="false">Morning Bakes</button>
+        <button class="menu-tab-btn" data-cat="cafe" role="tab" aria-selected="false">Café &amp; Brunch</button>
+        <button class="menu-tab-btn" data-cat="brews" role="tab" aria-selected="false">Specialty Brews</button>
+      </div>
+
+      <!-- Menu Cards Grid -->
+      <div class="menu-cards-grid" id="menuCardsGrid">
+        <!-- Card 1: Hazelnut Obsidian -->
+        <div class="menu-card" data-category="patisserie" data-item="obsidian">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173944.jpg" alt="Hazelnut Obsidian" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173944.jpg';}">
+            <span class="menu-card-tag">Chef's Signature</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Hazelnut Obsidian</h3>
+              <span class="menu-card-price">₹420</span>
+            </div>
+            <p class="menu-card-desc">Valrhona dark chocolate mirror glaze, roasted Piedmont hazelnut praline mousse, and crunchy feuilletine base.</p>
+            <div class="menu-card-footer">
+              <span>Haute Entremet</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: The Cherry -->
+        <div class="menu-card" data-category="patisserie" data-item="cherry">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173924.jpg" alt="The Cherry" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173924.jpg';}">
+            <span class="menu-card-tag">Sculpted</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">The Cherry</h3>
+              <span class="menu-card-price">₹390</span>
+            </div>
+            <p class="menu-card-desc">Hand-sculpted Morello cherry mousse, tart compote insert, Madagascar vanilla bean cream, and delicate dark chocolate twig.</p>
+            <div class="menu-card-footer">
+              <span>Sculpted Fruit</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Honeycomb Croissant -->
+        <div class="menu-card" data-category="bakes" data-item="croissant">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173815.jpg" alt="Honeycomb French Croissant" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173815.jpg';}">
+            <span class="menu-card-tag">81 Flaky Layers</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Honeycomb Croissant</h3>
+              <span class="menu-card-price">₹220</span>
+            </div>
+            <p class="menu-card-desc">48-hour slow fermented, Elle &amp; Vire French butter, crisp golden exterior with gossamer honeycomb structure.</p>
+            <div class="menu-card-footer">
+              <span>Viennoiserie</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Pistachio Paris-Brest -->
+        <div class="menu-card" data-category="patisserie" data-item="pistachio">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173907.jpg" alt="Pistachio Paris-Brest" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173907.jpg';}">
+            <span class="menu-card-tag">Sicilian Nut</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Pistachio Paris-Brest</h3>
+              <span class="menu-card-price">₹410</span>
+            </div>
+            <p class="menu-card-desc">Crisp choux ring piped with roasted Sicilian pistachio mousseline and sea-salted praline crunch.</p>
+            <div class="menu-card-footer">
+              <span>Choux Pastry</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Mirthy Comfort Noodle Broth -->
+        <div class="menu-card" data-category="cafe" data-item="broth">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173757.jpg" alt="Mirthy Comfort Noodle Broth" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173757.jpg';}">
+            <span class="menu-card-tag">Café Special</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Comfort Broth Bowl</h3>
+              <span class="menu-card-price">₹450</span>
+            </div>
+            <p class="menu-card-desc">Hand-pulled artisan noodles in a rich umami broth with braised shiitake mushrooms, crisp greens, and seasoned ramen egg.</p>
+            <div class="menu-card-footer">
+              <span>Warm Savoury</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Avocado & Poached Egg Tartine -->
+        <div class="menu-card" data-category="cafe" data-item="avocado">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_174019.jpg" alt="Avocado Sourdough Tartine" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_174019.jpg';}">
+            <span class="menu-card-tag">All-Day Brunch</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Avocado Tartine</h3>
+              <span class="menu-card-price">₹380</span>
+            </div>
+            <p class="menu-card-desc">Crushed Hass avocado, whipped Greek feta, Aleppo chili crisps, and farm poached egg on toasted country sourdough.</p>
+            <div class="menu-card-footer">
+              <span>Artisan Sourdough</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7: Almond Frangipane Croissant -->
+        <div class="menu-card" data-category="bakes" data-item="almond">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_173833.jpg" alt="Almond Frangipane Croissant" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173833.jpg';}">
+            <span class="menu-card-tag">Twice-Baked</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Almond Frangipane</h3>
+              <span class="menu-card-price">₹280</span>
+            </div>
+            <p class="menu-card-desc">Laminated croissant soaked in orange blossom syrup, filled with rich almond cream and toasted flaked almonds.</p>
+            <div class="menu-card-footer">
+              <span>Morning Bake</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8: Specialty Pour-Over Coffee -->
+        <div class="menu-card" data-category="brews" data-item="pourover">
+          <div class="menu-card-img-wrap">
+            <img src="public/images/IMG_20261023_174047.jpg" alt="Estate Single-Origin Pour-Over" class="menu-card-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_174047.jpg';}">
+            <span class="menu-card-tag">Chikmagalur Single Estate</span>
+          </div>
+          <div class="menu-card-content">
+            <div class="menu-card-title-row">
+              <h3 class="menu-card-title">Estate Pour-Over</h3>
+              <span class="menu-card-price">₹240</span>
+            </div>
+            <p class="menu-card-desc">Single-origin washed Arabica beans from Chikmagalur estates, brewed to order for nuanced floral and citrus notes.</p>
+            <div class="menu-card-footer">
+              <span>Specialty Brew</span>
+              <span class="menu-card-action">Quick View &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 3: OUR STORY & PHILOSOPHY
+         ======================================================================== -->
+    <section class="content-section" id="story">
+      <div class="story-grid">
+        <div class="story-text-block">
+          <div>
+            <span class="section-badge">OUR PHILOSOPHY</span>
+            <h2 class="section-title">Come for the Desserts.<br>Stay for the Mirth.</h2>
+          </div>
+          <p class="story-lead">In the heart of Jubilee Hills, Mirthy is an ode to the quiet pleasure of a perfect pastry. We believe dessert is not merely food — it is an artistic pause and a shared joy.</p>
+          <p class="story-paragraph">Every dawn at 4:30 AM, our bakers fire the ovens with pure Elle &amp; Vire French butter, single-origin Valrhona grand cru chocolate, and honest organic ingredients. We never take shortcuts: our laminated croissants rest through a rigorous 48-hour slow fermentation to achieve their airy honeycomb crumb.</p>
+          
+          <div class="story-pillars">
+            <div class="story-pillar-item">
+              <span class="pillar-num">01</span>
+              <div class="pillar-info">
+                <h4>The Art of Patience</h4>
+                <p>Up to 72 hours of meticulous folding, resting, and precision glazing for every entremet.</p>
+              </div>
+            </div>
+            <div class="story-pillar-item">
+              <span class="pillar-num">02</span>
+              <div class="pillar-info">
+                <h4>Pure Provenance</h4>
+                <p>Imported Normandy butter, Belgian couvertures, and natural farm milk with zero artificial preservatives.</p>
+              </div>
+            </div>
+            <div class="story-pillar-item">
+              <span class="pillar-num">03</span>
+              <div class="pillar-info">
+                <h4>Travertine Sanctuary</h4>
+                <p>A tranquil, light-filled sanctuary designed with warm travertine stone, oak, and flourishing plants.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-visual-wrap">
+          <div class="story-dashed-ring"></div>
+          <div class="story-visual-box">
+            <img src="public/images/IMG_20261023_173815.jpg" alt="Mirthy Bakery Box &amp; Fresh Viennoiserie" class="story-visual-img" loading="lazy" decoding="async" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/images/IMG_20261023_173815.jpg';}">
+          </div>
+          <div class="story-floating-note">"Layered with joy, shared with warmth"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 4: VISIT US & RESERVATION SECTION
+         ======================================================================== -->
+    <section class="content-section" id="visit">
+      <div class="section-header">
+        <span class="section-badge">FIND US IN HYDERABAD</span>
+        <h2 class="section-title">A Warm Table Awaits You</h2>
+        <p class="section-sub">Step into our light-filled café and patisserie atelier in Jubilee Hills, or reserve a table for your next special moment.</p>
+      </div>
+
+      <div class="visit-grid">
+        <!-- Atelier Location & Operating Details -->
+        <div class="visit-card">
+          <span class="visit-card-badge">ATELIER &amp; CAFÉ</span>
+          <h3 class="visit-card-title">Jubilee Hills Atelier</h3>
+          <p class="visit-card-desc">Located on Road No. 45, our boutique café features a glass-walled pastry atelier, serene outdoor verandah, and specialty espresso bar.</p>
+
+          <div class="visit-detail-row">
+            <div class="detail-icon-wrap">&#128205;</div>
+            <div class="detail-text">
+              <h4>Address</h4>
+              <p>Plot 45, Road No. 45, Jubilee Hills, Hyderabad, Telangana 500033</p>
+            </div>
+          </div>
+
+          <div class="visit-detail-row">
+            <div class="detail-icon-wrap">&#9200;</div>
+            <div class="detail-text">
+              <h4>Operating Hours</h4>
+              <p>Tuesday – Thursday: 8:00 AM – 11:00 PM<br>Friday – Sunday: 8:00 AM – 11:30 PM<br><em>Mondays closed for culinary research</em></p>
+            </div>
+          </div>
+
+          <div class="visit-detail-row">
+            <div class="detail-icon-wrap">&#128222;</div>
+            <div class="detail-text">
+              <h4>Direct Contact</h4>
+              <p>+91 9032890327 &bull; hello@mirthycafe.com</p>
+            </div>
+          </div>
+
+          <div class="amenities-row">
+            <span class="amenity-chip">✓ Valet Parking</span>
+            <span class="amenity-chip">✓ Pet Friendly Verandah</span>
+            <span class="amenity-chip">✓ High-Speed Wi-Fi</span>
+            <span class="amenity-chip">✓ Celebration Pre-Orders</span>
+          </div>
+
+          <div class="visit-actions-row">
+            <a href="https://maps.google.com/?q=Jubilee+Hills+Hyderabad" target="_blank" rel="noopener" class="btn-outline-green">Directions on Maps &rarr;</a>
+            <a href="tel:+919032890327" class="btn-solid-green">Call Now</a>
+          </div>
+        </div>
+
+        <!-- Reservation & Pre-Order Form -->
+        <div class="visit-card" id="reserve">
+          <span class="visit-card-badge">TABLE &amp; TASTING</span>
+          <h3 class="visit-card-title">Reserve an Experience</h3>
+          <p class="visit-card-desc">Book our signature Afternoon Pastry Flight, reserve table seating for weekend brunch, or inquire about custom bespoke celebration cakes.</p>
+
+          <form class="reservation-form" id="resForm">
+            <div class="form-group-row">
+              <div class="form-field">
+                <label class="form-label" for="resName">Full Name</label>
+                <input type="text" id="resName" class="form-input" placeholder="e.g. Ananya Rao" autocomplete="name" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="resPhone">Phone Number</label>
+                <input type="tel" id="resPhone" class="form-input" placeholder="+91 90328 90327" autocomplete="tel" required>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="resExp">Curated Experience</label>
+              <select id="resExp" class="form-select">
+                <option value="flight">Afternoon Pastry Tasting Flight (₹1,200 / person)</option>
+                <option value="table">Table Dining &amp; Café Brunch</option>
+                <option value="cake">Bespoke Celebration Cake Pre-Order</option>
+                <option value="private">Private Gathering / Intimate High Tea</option>
+              </select>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-field">
+                <label class="form-label" for="resDate">Preferred Date</label>
+                <input type="date" id="resDate" class="form-input" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="resGuests">Number of Guests</label>
+                <select id="resGuests" class="form-select">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 - 4 Guests</option>
+                  <option value="5">5+ Guests (Celebration)</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="form-submit-btn">Request Reservation</button>
+            <div class="form-success-toast" id="resToast">Thank you! Your reservation inquiry has been received. Our concierge will WhatsApp you shortly to confirm.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FOOTER
+         ======================================================================== -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-top-row">
+          <div class="footer-brand">
+            <a href="#hero" class="footer-logo">
+              <img src="public/Mirthylogo.jpg" alt="Mirthy Logo" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='/Mirthylogo.jpg';}">
+              <span class="footer-logo-text">MIRTHY CAFÉ</span>
+            </a>
+            <p class="footer-tagline">“Come for the desserts. Stay for the mirth.”<br>Artisanal Haute Patisserie, Viennoiserie &amp; Café in Jubilee Hills, Hyderabad.</p>
+          </div>
+
+          <div class="footer-links-group">
+            <div class="footer-col">
+              <h5>Atelier</h5>
+              <ul>
+                <li><a href="#menu" data-filter="patisserie">Haute Patisserie</a></li>
+                <li><a href="#menu" data-filter="bakes">Morning Bakes</a></li>
+                <li><a href="#menu" data-filter="cafe">Café &amp; Brunch</a></li>
+                <li><a href="#menu" data-filter="brews">Specialty Brews</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <h5>Sanctuary</h5>
+              <ul>
+                <li><a href="#story">Our Philosophy</a></li>
+                <li><a href="#visit">Visit Jubilee Hills</a></li>
+                <li><a href="#reserve">Reserve a Table</a></li>
+                <li><a href="https://maps.google.com/?q=Jubilee+Hills+Hyderabad" target="_blank" rel="noopener">Location &amp; Maps</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <h5>Connect</h5>
+              <ul>
+                <li><a href="https://instagram.com/mirthycafe" target="_blank" rel="noopener">Instagram @mirthycafe</a></li>
+                <li><a href="tel:+919032890327">+91 9032890327</a></li>
+                <li><a href="mailto:hello@mirthycafe.com">hello@mirthycafe.com</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom-row">
+          <div>&copy; 2026 Mirthy Patisserie &amp; Café. All rights reserved. Road No. 45, Jubilee Hills, Hyderabad.</div>
+          <div class="footer-note-hand">Layered with joy in Hyderabad &#127807;</div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- INTERACTIVE MODAL DIALOG -->
+  <div class="modal-overlay" id="modalOverlay" aria-modal="true" role="dialog" aria-labelledby="modalHeading" aria-hidden="true">
+    <div class="modal-card" id="modalCard">
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
+      <div class="modal-badge" id="modalCategory">MIRTHY PATISSERIE</div>
+      <h3 class="modal-title" id="modalHeading">Explore Our Menu</h3>
+      <p class="modal-desc" id="modalDescription">Every creation at Mirthy is baked with single-origin French butter, Valrhona couverture, and boundless joy in Jubilee Hills, Hyderabad.</p>
+      
+      <div class="modal-list-grid" id="modalList">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="modal-btn-row">
+        <a href="tel:+919032890327" class="modal-btn-primary" id="modalCallBtn">Call to Reserve</a>
+        <a href="#reserve" class="modal-btn-primary" id="modalReserveBtn" style="background:var(--white);color:var(--forest-green);border:1px solid rgba(8,72,45,0.25);">Reserve Table</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       MIRTHY PATISSERIE & CAFÉ — JAVASCRIPT LOGIC
+       - Mathematical Curved Inside-of-Cylinder Carousel in Hero
+       - 10 Tall Video Cards utilizing authentic local media
+       - 1:1 Pointer/Touch Dragging with Momentum Decay
+       - Web Animations API Entrance Sequence
+       - Category Filter Tabs for Menu Section
+       - Floating Sticky Header on Scroll
+       - Interactive Reservation Form with Instant Confirmation
+       ========================================================================== */
+
+    // 10 Cards Configured with Authentic Local Media from public/
+    const CARDS_DATA = [
+      {
+        type: 'video',
+        videoSrc: 'public/images/video-1792757653236.mp4',
+        posterSrc: 'public/images/IMG_20261023_173815.jpg',
+        title: 'Golden Viennoiserie',
+        desc: 'Laminated French butter croissants & morning pastries'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_173944.jpg',
+        title: 'Signature Obsidian Entremet',
+        desc: 'Valrhona dark chocolate mirror glaze & hazelnut praline'
+      },
+      {
+        type: 'video',
+        videoSrc: 'public/images/Video-77167.mp4',
+        posterSrc: 'public/images/IMG_20261023_174019.jpg',
+        title: 'Artisan Pastry Glazing',
+        desc: 'Master chefs finishing handcrafted entremets'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_173924.jpg',
+        title: 'The Cherry Entremet',
+        desc: 'Tart Morello cherry compote with Madagascar vanilla bean'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_174019.jpg',
+        title: 'Specialty Coffee Pairing',
+        desc: 'Estate-grown Arabica roasted for pastry pairing'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_173757.jpg',
+        title: 'Gourmet Café Dining',
+        desc: 'Warm savoury noodle broths & seasonal breakfast plates'
+      },
+      {
+        type: 'video',
+        videoSrc: 'public/images/video-1792757653236.mp4',
+        posterSrc: 'public/images/IMG_20261023_173833.jpg',
+        title: '48-Hour Fermentation',
+        desc: 'Honeycomb lamination baked to deep golden crispness'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_173907.jpg',
+        title: 'Pistachio Paris-Brest',
+        desc: 'Crisp choux ring filled with pure Sicilian pistachio cream'
+      },
+      {
+        type: 'image',
+        posterSrc: 'public/images/IMG_20261023_173815.jpg',
+        title: 'Mirthy Joy Gift Boxes',
+        desc: 'Artisanal pastry collections packaged with care'
+      },
+      {
+        type: 'video',
+        videoSrc: 'public/images/Video-77167.mp4',
+        posterSrc: 'public/images/IMG_20261023_174047.jpg',
+        title: 'Café Refreshments',
+        desc: 'Matcha lattes, cold brews & sparkling fruit sodas'
+      }
+    ];
+
+    const NUM_CARDS = CARDS_DATA.length; // 10
+    const PITCH = 196;                   // 196u card pitch
+    const TOTAL_SPAN = NUM_CARDS * PITCH;// 1960u total span
+    const BASE_VELOCITY = -50;           // 50u per second right-to-left
+
+    const container = document.getElementById('carouselContainer');
+    const heroFrame = document.getElementById('heroFrame');
+
+    // 1. Cached Dimensions & Responsive Unit Management
+    let u = 1;
+    function updateDimensions() {
+      u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+    }
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions, { passive: true });
+    window.addEventListener('orientationchange', updateDimensions, { passive: true });
+
+    function resolvePath(p) {
+      return p;
+    }
+
+    // 2. Prefers Reduced Motion & Visibility Management
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = motionQuery.matches;
+    motionQuery.addEventListener('change', (e) => {
+      prefersReducedMotion = e.matches;
+      if (prefersReducedMotion) {
+        videoElements.forEach(v => { if (!v.paused) v.pause(); });
+      } else if (isHeroInView) {
+        videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+      }
+    });
+
+    let isHeroInView = true;
+    let isPageVisible = !document.hidden;
+
+    // Build the 10 Video Card Elements with Keyboard & Touch Optimization
+    const cardElements = [];
+    const videoElements = [];
+
+    for (let i = 0; i < NUM_CARDS; i++) {
+      const data = CARDS_DATA[i];
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.setAttribute('data-index', i);
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `${data.title} — ${data.desc}. Press Enter or click to view details.`);
+
+      const mediaWrap = document.createElement('div');
+      mediaWrap.className = 'card-media-wrapper';
+
+      const poster = document.createElement('img');
+      poster.className = 'card-poster';
+      poster.src = resolvePath(data.posterSrc);
+      poster.alt = data.title;
+      poster.draggable = false;
+      poster.decoding = 'async';
+      poster.onerror = function() {
+        if (!this.dataset.retried) {
+          this.dataset.retried = '1';
+          this.src = data.posterSrc.replace(/^public\//, '/');
+        }
+      };
+
+      mediaWrap.appendChild(poster);
+
+      let video = null;
+      if (data.type === 'video') {
+        video = document.createElement('video');
+        video.className = 'card-video';
+        video.src = resolvePath(data.videoSrc);
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('loop', '');
+        video.onerror = function() {
+          if (!this.dataset.retried) {
+            this.dataset.retried = '1';
+            this.src = data.videoSrc.replace(/^public\//, '/');
+          }
+        };
+
+        video.addEventListener('canplay', () => {
+          video.classList.add('is-ready');
+        }, { once: true });
+
+        mediaWrap.appendChild(video);
+        videoElements.push(video);
+      }
+
+      const playIcon = document.createElement('div');
+      playIcon.className = 'frosted-play-btn';
+      playIcon.innerHTML = `
+        <svg class="play-triangle" viewBox="0 0 10 12" aria-hidden="true">
+          <polygon points="1,1 9,6 1,11" />
+        </svg>
+      `;
+
+      card.appendChild(mediaWrap);
+      card.appendChild(playIcon);
+
+      card.addEventListener('click', () => {
+        if (totalDragDelta > 8 || Math.abs(momentumVelocity) > 20) return;
+        openModalWithItem(data);
+      });
+
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModalWithItem(data);
+        }
+      });
+
+      container.appendChild(card);
+      cardElements.push({
+        card,
+        poster,
+        video,
+        index: i,
+        data
+      });
+    }
+
+    // 3. Carousel Interaction State & Gesture Disambiguation
+    let scrollOffset = 0;
+    let isPointerDown = false;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let lastPointerX = 0;
+    let lastPointerTime = 0;
+    let momentumVelocity = 0;
+    let gestureAxis = null; // null | 'horizontal' | 'vertical'
+    let totalDragDelta = 0;
+
+    container.addEventListener('pointerdown', (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
+      isPointerDown = true;
+      isDragging = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      lastPointerX = e.clientX;
+      lastPointerTime = performance.now();
+      momentumVelocity = 0;
+      totalDragDelta = 0;
+      gestureAxis = e.pointerType === 'mouse' ? 'horizontal' : null;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      // Never interrupt auto-scrolling when cursor is merely moving/hovering without pointer down
+      if (!isPointerDown || gestureAxis === 'vertical') return;
+
+      const currentX = e.clientX;
+      const currentY = e.clientY;
+      const dxTotal = currentX - startX;
+      const dyTotal = currentY - startY;
+
+      if (gestureAxis === null) {
+        if (Math.abs(dxTotal) > 6 || Math.abs(dyTotal) > 6) {
+          if (Math.abs(dxTotal) >= Math.abs(dyTotal)) {
+            gestureAxis = 'horizontal';
+            isDragging = true;
+            container.classList.add('is-dragging');
+            document.body.classList.add('is-carousel-dragging');
+            try { container.setPointerCapture(e.pointerId); } catch (err) {}
+          } else {
+            gestureAxis = 'vertical';
+            return;
+          }
+        } else {
+          return;
+        }
+      } else if (!isDragging && Math.abs(dxTotal) > 4) {
+        isDragging = true;
+        container.classList.add('is-dragging');
+        document.body.classList.add('is-carousel-dragging');
+        try { container.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+
+      if (isDragging) {
+        const now = performance.now();
+        const dt = (now - lastPointerTime) / 1000;
+        const dx = currentX - lastPointerX;
+        const dxUnits = dx / u;
+
+        scrollOffset += dxUnits;
+        totalDragDelta += Math.abs(dx);
+
+        if (dt > 0.008) {
+          momentumVelocity = dxUnits / dt;
+          lastPointerX = currentX;
+          lastPointerTime = now;
+        }
+      }
+    }, { passive: true });
+
+    const stopDragging = (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      if (isDragging) {
+        isDragging = false;
+        container.classList.remove('is-dragging');
+        document.body.classList.remove('is-carousel-dragging');
+        try { container.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+      gestureAxis = null;
+    };
+
+    window.addEventListener('pointerup', stopDragging);
+    window.addEventListener('pointercancel', stopDragging);
+
+    // 4. Hero Section IntersectionObserver (Pauses Off-Screen Work)
+    const heroSection = document.getElementById('hero');
+    if (heroSection && 'IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isHeroInView = entry.isIntersecting;
+          if (!isHeroInView) {
+            videoElements.forEach(v => { if (!v.paused) v.pause(); });
+          } else if (isPageVisible && !prefersReducedMotion) {
+            videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+          }
+        });
+      }, { threshold: 0.05 });
+      heroObserver.observe(heroSection);
+    }
+
+    let clockAnim = null;
+    try {
+      clockAnim = document.documentElement.animate(
+        [{ opacity: 1 }, { opacity: 1 }],
+        { duration: 1e9, iterations: Infinity }
+      );
+    } catch (e) {}
+
+    let prevClockTime = clockAnim ? (clockAnim.currentTime || 0) : performance.now();
+
+    function isMobile() {
+      return window.innerWidth <= 820;
+    }
+
+    // 5. Geometry Calculation & Render Loop (Hardware Accelerated)
+    function render() {
+      const now = clockAnim ? (clockAnim.currentTime || performance.now()) : performance.now();
+      const dt = Math.min((now - prevClockTime) / 1000, 0.1);
+      prevClockTime = now;
+
+      const activeBaseVelocity = prefersReducedMotion ? 0 : BASE_VELOCITY;
+
+      if (!isDragging) {
+        scrollOffset += (momentumVelocity + activeBaseVelocity) * dt;
+        momentumVelocity *= Math.pow(0.05, dt);
+        if (Math.abs(momentumVelocity) < 0.2) {
+          momentumVelocity = 0;
+        }
+      }
+
+      scrollOffset = ((scrollOffset % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+
+      const mobile = isMobile();
+      const centerTargetX = mobile ? (window.innerWidth / (2 * u)) : 720;
+      const normDiv = mobile ? (window.innerWidth / (2 * u)) : 706;
+      const viewportRight = (mobile ? window.innerWidth : 1440 * u) + 260;
+      const viewportLeft = -260;
+
+      for (let i = 0; i < NUM_CARDS; i++) {
+        const item = cardElements[i];
+
+        const nominal = i * PITCH + scrollOffset;
+        let t = ((nominal % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+        if (t > TOTAL_SPAN / 2) {
+          t -= TOTAL_SPAN;
+        }
+
+        const tNorm = t / normDiv;
+        const pushFactor = 1 + 0.083 * (tNorm * tNorm);
+        const x = centerTargetX + t * pushFactor;
+
+        const d = Math.abs(x - centerTargetX) / normDiv;
+
+        const w_u = (mobile ? 140 : 170) + (mobile ? 36 : 48) * (d * d);
+        const W_px = w_u * u;
+
+        const x_left = x - w_u / 2;
+        const x_right = x + w_u / 2;
+        const x_left_px = x_left * u;
+        const x_right_px = x_right * u;
+
+        const isVisible = (x_right_px > viewportLeft) && (x_left_px < viewportRight);
+
+        if (!isVisible) {
+          if (item.card.style.display !== 'none') {
+            item.card.style.display = 'none';
+          }
+          if (item.video && !item.video.paused) {
+            item.video.pause();
+          }
+          continue;
+        }
+
+        if (item.card.style.display === 'none') {
+          item.card.style.display = 'block';
+        }
+
+        if (item.video && item.video.paused && isHeroInView && !prefersReducedMotion) {
+          item.video.play().catch(() => {});
+        }
+
+        const q_left = Math.abs(x_left - centerTargetX) / normDiv;
+        const q_right = Math.abs(x_right - centerTargetX) / normDiv;
+
+        const h_left_u = (mobile ? 190 : 280) + (mobile ? 45 : 92) * Math.pow(q_left, 2.6);
+        const h_right_u = (mobile ? 190 : 280) + (mobile ? 45 : 92) * Math.pow(q_right, 2.6);
+
+        const y_center_u = (mobile ? 125 : 687) - 12 * (d * d);
+
+        const tl_y_u = y_center_u - h_left_u / 2;
+        const tr_y_u = y_center_u - h_right_u / 2;
+        const bl_y_u = y_center_u + h_left_u / 2;
+        const br_y_u = y_center_u + h_right_u / 2;
+
+        const minY_u = Math.min(tl_y_u, tr_y_u);
+        const maxY_u = Math.max(bl_y_u, br_y_u);
+        const H_px = (maxY_u - minY_u) * u;
+        const minY_px = minY_u * u;
+
+        item.card.style.transform = `translate3d(${x_left_px}px, ${minY_px}px, 0)`;
+        item.card.style.width = `${W_px}px`;
+        item.card.style.height = `${H_px}px`;
+
+        const tl_y_local = (tl_y_u - minY_u) * u;
+        const tr_y_local = (tr_y_u - minY_u) * u;
+        const br_y_local = (br_y_u - minY_u) * u;
+        const bl_y_local = (bl_y_u - minY_u) * u;
+
+        const r = Math.min(15 * u, W_px / 4, H_px / 4);
+
+        const slopeTop = (tr_y_local - tl_y_local) / W_px;
+        const slopeBottom = (bl_y_local - br_y_local) / W_px;
+
+        const pathDef = `path('M 0,${tl_y_local + r} ` +
+          `Q 0,${tl_y_local} ${r},${tl_y_local + slopeTop * r} ` +
+          `L ${W_px - r},${tr_y_local - slopeTop * r} ` +
+          `Q ${W_px},${tr_y_local} ${W_px},${tr_y_local + r} ` +
+          `L ${W_px},${br_y_local - r} ` +
+          `Q ${W_px},${br_y_local} ${W_px - r},${br_y_local + slopeBottom * r} ` +
+          `L ${r},${bl_y_local - slopeBottom * r} ` +
+          `Q 0,${bl_y_local} 0,${bl_y_local - r} Z')`;
+
+        item.card.style.clipPath = pathDef;
+        item.card.style.webkitClipPath = pathDef;
+      }
+    }
+
+    let animationFrameId = null;
+
+    function renderLoop() {
+      if (!isPageVisible) {
+        animationFrameId = null;
+        return;
+      }
+      render();
+      animationFrameId = requestAnimationFrame(renderLoop);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      isPageVisible = !document.hidden;
+      if (isPageVisible) {
+        prevClockTime = performance.now();
+        if (!animationFrameId) {
+          animationFrameId = requestAnimationFrame(renderLoop);
+        }
+        if (isHeroInView && !prefersReducedMotion) {
+          videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+        }
+      } else {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+        videoElements.forEach(v => { if (!v.paused) v.pause(); });
+      }
+    });
+
+    animationFrameId = requestAnimationFrame(renderLoop);
+
+    /* 6. ENTRANCE WEB ANIMATIONS API SEQUENCE */
+    if (prefersReducedMotion) {
+      videoElements.forEach(v => v.pause());
+    } else {
+      const logo = document.getElementById('brandLogo');
+      const navBar = document.getElementById('navBar');
+      const topActions = document.getElementById('topActions');
+      const badge = document.getElementById('heroBadge');
+      const line1 = document.getElementById('headlineL1');
+      const line2 = document.getElementById('headlineL2');
+      const subline = document.getElementById('heroSubline');
+      const cards = document.getElementById('carouselContainer');
+      const btnRing = document.getElementById('btnRing');
+      const btnExplore = document.getElementById('btnExplore');
+
+      const slashes = document.getElementById('doodleSlashes');
+      const noteLove = document.getElementById('noteLoveWrap');
+      const arrowLove = document.getElementById('arrowLove');
+      const noteFresh = document.getElementById('noteFreshWrap');
+      const arrowFresh = document.getElementById('arrowFresh');
+
+      const slash1 = document.getElementById('slash1');
+      const slash2 = document.getElementById('slash2');
+      const pathArrowLove = document.getElementById('pathArrowLove');
+      const headArrowLove = document.getElementById('headArrowLove');
+      const pathArrowFresh = document.getElementById('pathArrowFresh');
+      const headArrowFresh = document.getElementById('headArrowFresh');
+
+      const strokeElements = [slash1, slash2, pathArrowLove, headArrowLove, pathArrowFresh, headArrowFresh];
+      strokeElements.forEach(el => {
+        if (!el) return;
+        const len = el.getTotalLength() || 120;
+        el.style.strokeDasharray = len;
+        el.style.strokeDashoffset = len;
+      });
+
+      [logo, navBar, topActions].forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'translateY(-24px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          duration: 650,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      });
+
+      if (badge) {
+        badge.animate([
+          { opacity: 0, transform: 'scale(0.85)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 150,
+          duration: 500,
+          easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      if (line1) {
+        line1.animate([
+          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+        ], {
+          delay: 260,
+          duration: 750,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      if (line2) {
+        line2.animate([
+          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+        ], {
+          delay: 380,
+          duration: 750,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      if (subline) {
+        subline.animate([
+          { opacity: 0, transform: 'translateY(24px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          delay: 520,
+          duration: 650,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      if (cards) {
+        cards.animate([
+          { opacity: 0, transform: 'translateY(60px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          delay: 620,
+          duration: 850,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      [btnRing, btnExplore].forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'scale(0.8)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 780,
+          duration: 550,
+          easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          fill: 'forwards'
+        });
+      });
+
+      setTimeout(() => {
+        strokeElements.forEach(el => {
+          if (!el) return;
+          el.animate([
+            { strokeDashoffset: el.style.strokeDasharray },
+            { strokeDashoffset: 0 }
+          ], {
+            duration: 700,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            fill: 'forwards'
+          });
+        });
+      }, 920);
+
+      [noteLove, noteFresh].forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'scale(0.92)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 1000,
+          duration: 600,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      });
+    }
+
+    /* 7. SCROLL LISTENER FOR STICKY HEADER */
+    const stickyNav = document.getElementById('stickyNav');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 380) {
+            stickyNav.classList.add('is-visible');
+          } else {
+            stickyNav.classList.remove('is-visible');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    /* 8. MENU FILTER LOGIC */
+    const menuTabButtons = document.querySelectorAll('.menu-tab-btn');
+    const menuCards = document.querySelectorAll('.menu-card');
+
+    function filterMenu(category) {
+      menuTabButtons.forEach(btn => {
+        const isSelected = btn.getAttribute('data-cat') === category;
+        btn.classList.toggle('is-active', isSelected);
+        btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      });
+
+      menuCards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+          card.style.display = 'flex';
+          card.animate([
+            { opacity: 0, transform: 'scale(0.96)' },
+            { opacity: 1, transform: 'scale(1)' }
+          ], {
+            duration: 300,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            fill: 'forwards'
+          });
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    menuTabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-cat');
+        filterMenu(cat);
+      });
+    });
+
+    // Links with data-filter attribute
+    document.querySelectorAll('[data-filter]').forEach(link => {
+      link.addEventListener('click', () => {
+        const filterVal = link.getAttribute('data-filter');
+        filterMenu(filterVal);
+      });
+    });
+
+    /* 9. RESERVATION FORM SUBMISSION INTERACTION */
+    const resForm = document.getElementById('resForm');
+    const resToast = document.getElementById('resToast');
+
+    // Set today as min date for reservation picker
+    const resDateInput = document.getElementById('resDate');
+    if (resDateInput) {
+      const today = new Date().toISOString().split('T')[0];
+      resDateInput.min = today;
+      if (!resDateInput.value) {
+        resDateInput.value = today;
+      }
+    }
+
+    if (resForm) {
+      resForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = resForm.querySelector('.form-submit-btn');
+        const phoneInput = document.getElementById('resPhone');
+        const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+
+        // Validation for contact number
+        const digitsOnly = phoneVal.replace(/\D/g, '');
+        if (digitsOnly.length < 10) {
+          alert('Please enter a valid 10-digit mobile number for reservation confirmation.');
+          if (phoneInput) phoneInput.focus();
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Confirming Reservation...';
+
+        setTimeout(() => {
+          btn.textContent = 'Request Confirmed ✓';
+          btn.style.background = '#053320';
+          if (resToast) {
+            resToast.style.display = 'block';
+            resToast.innerHTML = `
+              <strong>Thank you! Your table request has been received.</strong><br>
+              Our concierge will contact you on WhatsApp shortly.<br>
+              <div style="margin-top:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <a href="https://wa.me/919032890327?text=${encodeURIComponent('Hello Mirthy Atelier, I would like to confirm my reservation request for ' + (document.getElementById('resName')?.value || 'Guest'))}" target="_blank" rel="noopener" style="background:#08482D;color:#FFF;padding:6px 14px;border-radius:9999px;font-size:13px;text-decoration:none;font-weight:600;">Message Concierge on WhatsApp &rarr;</a>
+              </div>
+            `;
+            resToast.animate([
+              { opacity: 0, transform: 'translateY(-10px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], {
+              duration: 350,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+          }
+        }, 500);
+      });
+    }
+
+    /* 10. MODAL DIALOG FUNCTIONALITY & FOCUS TRAP */
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const modalCategory = document.getElementById('modalCategory');
+    const modalHeading = document.getElementById('modalHeading');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalList = document.getElementById('modalList');
+    const modalReserveBtn = document.getElementById('modalReserveBtn');
+
+    let lastFocusedElement = null;
+
+    const MENU_DETAILS = {
+      obsidian: {
+        category: 'HAUTE PATISSERIE',
+        title: 'Hazelnut Obsidian',
+        desc: 'Our crown jewel entremet. A flawless Valrhona grand cru dark chocolate mirror glaze enrobes slow-roasted Piedmont hazelnut praline mousse and a crispy feuilletine biscuit base.',
+        items: [
+          { name: 'Core Flavours', desc: 'Valrhona 70% Dark Chocolate, Italian Piedmont Hazelnut, Fleur de Sel', price: 'Signature' },
+          { name: 'Texture Profile', desc: 'Silky whipped chocolate mousse over shattering caramelized wafer crunch', price: '₹420' },
+          { name: 'Allergens', desc: 'Contains Dairy, Gluten & Tree Nuts. 100% Eggless available.', price: 'Atelier Fresh' }
+        ]
+      },
+      cherry: {
+        category: 'SCULPTED ENTREMET',
+        title: 'The Cherry',
+        desc: 'A realistic sculpted cherry created through intricate silicone molding. Delicate thin dark chocolate shell holding tart Morello cherry compote and Madagascar bourbon vanilla bean whipped ganache.',
+        items: [
+          { name: 'Core Flavours', desc: 'Morello Cherry Compote, Bourbon Vanilla Bean, Belgian Dark Couverture', price: 'Sculpted' },
+          { name: 'Pastry Base', desc: 'Almond sable breton tartlet with kirsch-infused almond sponge', price: '₹390' },
+          { name: 'Serving Note', desc: 'Best savoured paired with our single-origin pour-over coffee', price: 'Daily Batch' }
+        ]
+      },
+      croissant: {
+        category: 'MORNING VIENNOISERIE',
+        title: 'Honeycomb Butter Croissant',
+        desc: 'The benchmark of artisan baking. 48 hours of temperature-controlled fermentation and 81 gossamer layers using imported Normandy butter.',
+        items: [
+          { name: 'Butter Grade', desc: 'Elle & Vire 84% French Beurre de Tourage', price: 'Normandy' },
+          { name: 'Crumb Structure', desc: 'Airy, open honeycomb structure with a golden shattering crust', price: '₹220' },
+          { name: 'Baking Schedule', desc: 'Hot out of the oven at 8:00 AM, 12:30 PM & 4:30 PM daily', price: 'Freshly Baked' }
+        ]
+      },
+      pistachio: {
+        category: 'CHOUX PASTRY',
+        title: 'Pistachio Paris-Brest',
+        desc: 'Classical French choux wheel baked with crunchy craquelin, generously piped with rich Sicilian Bronte pistachio mousseline and a molten praline center.',
+        items: [
+          { name: 'Pistachio Origin', desc: 'D.O.P. Bronte Pistachios from volcanic Sicilian soil', price: 'Imported' },
+          { name: 'Sweetness Balance', desc: 'Lightly roasted with Himalayan pink salt to accentuate natural nut sweetness', price: '₹410' }
+        ]
+      },
+      broth: {
+        category: 'SAVOURY DINING',
+        title: 'Mirthy Comfort Noodle Broth',
+        desc: 'A warm, nourishing bowl of handcrafted noodles resting in a slow-simmered aromatic dashi broth, topped with caramelized shiitake, seasoned ramen egg, and scallion chili oil.',
+        items: [
+          { name: 'Broth Base', desc: '24-hour slow simmered aromatic mushroom and dashi reduction', price: 'Comfort' },
+          { name: 'Noodles', desc: 'Fresh artisan spring noodles crafted daily in our savoury kitchen', price: '₹450' }
+        ]
+      },
+      avocado: {
+        category: 'ALL-DAY BRUNCH',
+        title: 'Avocado & Poached Egg Tartine',
+        desc: 'Thick slice of 36-hour naturally leavened country sourdough, smeared with whipped sheep feta, ripe Hass avocado chunks, chili oil crunch, and a soft farm poached egg.',
+        items: [
+          { name: 'Bread Craft', desc: 'Naturally leavened wild sourdough baked in a stone deck oven', price: 'Sourdough' },
+          { name: 'Finishing', desc: 'Cold-pressed extra virgin olive oil, toasted sesame, and microgreens', price: '₹380' }
+        ]
+      },
+      almond: {
+        category: 'MORNING VIENNOISERIE',
+        title: 'Almond Frangipane Croissant',
+        desc: 'Twice-baked butter croissant steeped in light orange blossom simple syrup, layered with dense roasted almond frangipane, and crowned with toasted flaked almonds.',
+        items: [
+          { name: 'Craft Method', desc: 'Traditional French twice-baking for intense caramelized edges', price: 'Double Baked' },
+          { name: 'Flavour Notes', desc: 'Sweet almond marzipan, toasted crunch, and delicate citrus blossom', price: '₹280' }
+        ]
+      },
+      pourover: {
+        category: 'SPECIALTY BREWS',
+        title: 'Estate Single-Origin Pour-Over',
+        desc: 'Ethically sourced high-altitude Arabica beans from shade-grown estates in Chikmagalur, Karnataka. Hand-brewed with a V60 cone to bring forward bright jasmine floral notes and stone fruit sweetness.',
+        items: [
+          { name: 'Varietal & Process', desc: 'Selection 795, Fully Washed, Medium Light Roast', price: 'Single Estate' },
+          { name: 'Tasting Notes', desc: 'Jasmine blossom, sweet Meyer lemon, and honeyed hazelnut finish', price: '₹240' }
+        ]
+      }
+    };
+
+    function trapFocusInModal(e) {
+      if (e.key !== 'Tab') return;
+      const focusables = modalOverlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    function openModal() {
+      lastFocusedElement = document.activeElement;
+      modalOverlay.classList.add('is-active');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+      window.addEventListener('keydown', trapFocusInModal);
+      setTimeout(() => {
+        if (modalClose) modalClose.focus();
+      }, 50);
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('is-active');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+      window.removeEventListener('keydown', trapFocusInModal);
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function openModalWithItem(item) {
+      modalCategory.textContent = 'PATISSERIE SHOWCASE';
+      modalHeading.textContent = item.title;
+      modalDescription.textContent = item.desc;
+      modalList.innerHTML = `
+        <div class="modal-item-card">
+          <div class="modal-item-info">
+            <h4>${item.title}</h4>
+            <p>${item.desc}</p>
+          </div>
+          <div class="modal-item-price">Artisan Daily</div>
+        </div>
+        <div class="modal-item-card">
+          <div class="modal-item-info">
+            <h4>Craft &amp; Provenance</h4>
+            <p>Made fresh every morning in Jubilee Hills with Elle &amp; Vire French butter &amp; single-origin couverture.</p>
+          </div>
+          <div class="modal-item-price">Freshly Baked</div>
+        </div>
+      `;
+      openModal();
+    }
+
+    // Attach click events on menu cards
+    document.querySelectorAll('.menu-card').forEach(card => {
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.addEventListener('click', () => {
+        const itemKey = card.getAttribute('data-item');
+        const data = MENU_DETAILS[itemKey];
+        if (!data) return;
+
+        modalCategory.textContent = data.category;
+        modalHeading.textContent = data.title;
+        modalDescription.textContent = data.desc;
+        modalList.innerHTML = data.items.map(it => `
+          <div class="modal-item-card">
+            <div class="modal-item-info">
+              <h4>${it.name}</h4>
+              <p>${it.desc}</p>
+            </div>
+            <div class="modal-item-price">${it.price}</div>
+          </div>
+        `).join('');
+
+        openModal();
+      });
+
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    if (modalClose) {
+      modalClose.addEventListener('click', closeModal);
+    }
+
+    if (modalReserveBtn) {
+      modalReserveBtn.addEventListener('click', () => {
+        closeModal();
+      });
+    }
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('is-active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

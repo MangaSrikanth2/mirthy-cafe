@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reelmark — Captivate Crowds with Snackable Reels</title>
+
+  <!-- Google Fonts: Inter Tight 700, Inter 400/500/600, Caveat 600 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter+Tight:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       REELMARK HERO — SOFT MINT STUDIO DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --u: min(100vw / 1440, 100vh / 1080);
+      --bg-page: #F5F8EF;
+      --forest-green: #08482D;
+      --mint-badge: #DAE7C7;
+      --ink: #101410;
+      --subline: #5E5E61;
+      --white: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 1440×1080 Contained & Centred Frame */
+    .frame {
+      position: relative;
+      width: calc(1440 * var(--u));
+      height: calc(1080 * var(--u));
+      background-color: var(--bg-page);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* --------------------------------------------------------------------------
+       TOP BAR
+       -------------------------------------------------------------------------- */
+    .logo {
+      position: absolute;
+      left: calc(37 * var(--u));
+      top: calc(36 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(10 * var(--u));
+      text-decoration: none;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .logo-leaf {
+      width: calc(26 * var(--u));
+      height: calc(26 * var(--u));
+    }
+
+    .logo-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: calc(24 * var(--u));
+      letter-spacing: -0.03em;
+      color: var(--forest-green);
+      line-height: 1;
+    }
+
+    .nav-bar {
+      position: absolute;
+      left: calc(505 * var(--u));
+      top: calc(38 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(31 * var(--u));
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(16.4 * var(--u));
+      color: var(--ink);
+      z-index: 20;
+    }
+
+    .nav-link {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      color: var(--forest-green);
+    }
+
+    .nav-dot {
+      color: #9AA096;
+      font-weight: 400;
+    }
+
+    .top-buttons {
+      position: absolute;
+      top: calc(29 * var(--u));
+      right: calc(39 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      gap: calc(11 * var(--u));
+      z-index: 20;
+    }
+
+    .btn-login {
+      position: absolute;
+      left: calc(1211 * var(--u));
+      top: calc(29 * var(--u));
+      width: calc(92 * var(--u));
+      height: calc(40 * var(--u));
+      background: var(--white);
+      color: var(--ink);
+      border: 1px solid rgba(8, 72, 45, 0.12);
+      border-radius: 9999px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(15 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      z-index: 20;
+    }
+
+    .btn-signup {
+      position: absolute;
+      left: calc(1304 * var(--u));
+      top: calc(29 * var(--u));
+      width: calc(97 * var(--u));
+      height: calc(40 * var(--u));
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: 9999px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(15 * var(--u));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(8, 72, 45, 0.2);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      z-index: 20;
+    }
+
+    .btn-login:hover, .btn-signup:hover {
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------------------------------------------------
+       BADGE & TYPOGRAPHY
+       -------------------------------------------------------------------------- */
+    .badge {
+      position: absolute;
+      left: calc(575 * var(--u));
+      top: calc(115 * var(--u));
+      width: calc(292 * var(--u));
+      height: calc(37 * var(--u));
+      background-color: var(--mint-badge);
+      color: var(--forest-green);
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: calc(16.6 * var(--u));
+      letter-spacing: -0.01em;
+      z-index: 10;
+    }
+
+    .headline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(176 * var(--u));
+      text-align: center;
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 700;
+      font-size: calc(88 * var(--u));
+      line-height: calc(92 * var(--u));
+      color: var(--ink);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .headline-line-1 {
+      display: block;
+      letter-spacing: -0.035em;
+    }
+
+    .headline-line-2 {
+      display: block;
+      letter-spacing: -0.022em;
+    }
+
+    .subline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(394 * var(--u));
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: calc(20.8 * var(--u));
+      line-height: calc(32 * var(--u));
+      color: var(--subline);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       HAND-DRAWN NOTES & DOODLES
+       -------------------------------------------------------------------------- */
+    .doodle-slashes {
+      position: absolute;
+      left: calc(263 * var(--u));
+      top: calc(377 * var(--u));
+      width: calc(28 * var(--u));
+      height: calc(26 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .note-be-seen-wrap {
+      position: absolute;
+      left: calc(1212 * var(--u));
+      top: calc(310 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .note-be-seen {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: calc(30 * var(--u));
+      line-height: 1.1;
+      color: var(--forest-green);
+      transform: rotate(16deg);
+      transform-origin: 0 0;
+      white-space: nowrap;
+    }
+
+    .svg-arrow-be-seen {
+      position: absolute;
+      left: calc(1175 * var(--u));
+      top: calc(365 * var(--u));
+      width: calc(120 * var(--u));
+      height: calc(180 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+      overflow: visible;
+    }
+
+    .note-zero-cost-wrap {
+      position: absolute;
+      left: calc(521 * var(--u));
+      top: calc(937 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+    }
+
+    .note-zero-cost {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: calc(26 * var(--u));
+      color: var(--forest-green);
+      transform: rotate(24deg);
+      transform-origin: 50% 50%;
+      white-space: nowrap;
+    }
+
+    .svg-arrow-zero-cost {
+      position: absolute;
+      left: calc(565 * var(--u));
+      top: calc(918 * var(--u));
+      width: calc(65 * var(--u));
+      height: calc(40 * var(--u));
+      pointer-events: none;
+      z-index: 12;
+      overflow: visible;
+    }
+
+    .doodle-stroke {
+      stroke: var(--forest-green);
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* --------------------------------------------------------------------------
+       CURVED VIDEO CAROUSEL
+       -------------------------------------------------------------------------- */
+    .carousel-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      z-index: 5;
+      touch-action: pan-y;
+    }
+
+    .carousel-container.is-dragging {
+      cursor: grabbing;
+    }
+
+    .video-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      will-change: transform, clip-path;
+      pointer-events: auto;
+    }
+
+    .card-media-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #DAE7C7;
+    }
+
+    .card-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      will-change: transform;
+      object-fit: fill;
+      image-rendering: -webkit-optimize-contrast;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .card-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      will-change: transform;
+      object-fit: fill;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .card-video.is-ready {
+      opacity: 1;
+    }
+
+    /* Small Frosted Round Play Icon at each card's bottom-left */
+    .frosted-play-btn {
+      position: absolute;
+      left: calc(12 * var(--u));
+      bottom: calc(12 * var(--u));
+      width: calc(30 * var(--u));
+      height: calc(30 * var(--u));
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(calc(6 * var(--u)));
+      -webkit-backdrop-filter: blur(calc(6 * var(--u)));
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+    }
+
+    .play-triangle {
+      width: calc(10 * var(--u));
+      height: calc(10 * var(--u));
+      margin-left: calc(2 * var(--u));
+      fill: var(--forest-green);
+    }
+
+    /* --------------------------------------------------------------------------
+       "MAKE A REEL" BUTTON
+       -------------------------------------------------------------------------- */
+    .btn-ring {
+      position: absolute;
+      left: calc(617 * var(--u));
+      top: calc(893 * var(--u));
+      width: calc(190 * var(--u));
+      height: calc(74 * var(--u));
+      border: calc(1.8 * var(--u)) dashed var(--forest-green);
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 14;
+    }
+
+    .btn-make-reel {
+      position: absolute;
+      left: calc(626 * var(--u));
+      top: calc(901 * var(--u));
+      width: calc(172 * var(--u));
+      height: calc(58 * var(--u));
+      background: var(--forest-green);
+      color: var(--white);
+      border: none;
+      border-radius: 9999px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: calc(17 * var(--u));
+      letter-spacing: -0.01em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 15;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(8, 72, 45, 0.25);
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-make-reel:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(8, 72, 45, 0.35);
+      background: #063923;
+    }
+
+    /* --------------------------------------------------------------------------
+       PHONES & TABLETS (≤ 820px)
+       -------------------------------------------------------------------------- */
+    @media (max-width: 820px) {
+      body {
+        align-items: flex-start;
+        overflow-y: auto;
+      }
+
+      .frame {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-bottom: 40px;
+        --u: calc(100vw / 640);
+      }
+
+      .nav-bar, .btn-login {
+        display: none !important;
+      }
+
+      .logo {
+        left: 20px;
+        top: 24px;
+      }
+
+      .btn-signup {
+        left: auto;
+        right: 20px;
+        top: 20px;
+        width: 90px;
+        height: 38px;
+        font-size: 14px;
+      }
+
+      .badge {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 85px auto 16px auto;
+        width: 270px;
+        height: 34px;
+        font-size: 14.5px;
+        display: flex;
+      }
+
+      .headline {
+        position: relative;
+        top: auto;
+        font-size: clamp(38px, 9vw, 56px);
+        line-height: 1.05;
+        padding: 0 20px;
+      }
+
+      .subline {
+        position: relative;
+        top: auto;
+        font-size: 16px;
+        line-height: 24px;
+        padding: 0 24px;
+        margin-top: 14px;
+        margin-bottom: 24px;
+      }
+
+      .carousel-container {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        margin: 10px 0 20px 0;
+      }
+
+      .btn-ring {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 20px auto 0 auto;
+        display: none;
+      }
+
+      .btn-make-reel {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin: 15px auto 0 auto;
+        display: flex;
+        width: 172px;
+        height: 56px;
+        font-size: 16.5px;
+      }
+
+      .note-zero-cost-wrap {
+        position: relative;
+        left: auto;
+        top: auto;
+        margin-top: 12px;
+        text-align: center;
+      }
+
+      .note-zero-cost {
+        transform: rotate(0deg);
+        font-size: 22px;
+      }
+
+      .svg-arrow-zero-cost,
+      .doodle-slashes,
+      .note-be-seen-wrap,
+      .svg-arrow-be-seen {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="frame" id="heroFrame">
+
+    <!-- TOP BAR: Logo, Nav, Buttons -->
+    <a href="#" class="logo" id="brandLogo" aria-label="Reelmark Homepage">
+      <svg class="logo-leaf" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 24C4 24 6 12 16 6C20 3.6 24 4 24 4C24 4 24.4 8 22 12C16 22 4 24 4 24Z" fill="#08482D"/>
+        <path d="M4 24C12 18 17 11 24 4" stroke="#F5F8EF" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">Reelmark</span>
+    </a>
+
+    <nav class="nav-bar" id="navBar" aria-label="Main Navigation">
+      <a href="#brands" class="nav-link">Brands</a>
+      <span class="nav-dot">·</span>
+      <a href="#creators" class="nav-link">Creators</a>
+      <span class="nav-dot">·</span>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <span class="nav-dot">·</span>
+      <a href="#usecases" class="nav-link">Use Cases</a>
+      <span class="nav-dot">·</span>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <a href="#login" class="btn-login" id="btnLogin">Log in</a>
+    <a href="#signup" class="btn-signup" id="btnSignup">Sign up</a>
+
+    <!-- BADGE -->
+    <div class="badge" id="heroBadge">
+      Trusted by 120,000+ indie makers
+    </div>
+
+    <!-- HEADLINE -->
+    <h1 class="headline" id="heroHeadline">
+      <span class="headline-line-1" id="headlineL1">Captivate Crowds</span>
+      <span class="headline-line-2" id="headlineL2">with Snackable Reels</span>
+    </h1>
+
+    <!-- SUBLINE -->
+    <p class="subline" id="heroSubline">
+      Grow your brand with short, snappy product clips by<br>
+      our handpicked video makers. Our crew is ready to<br>
+      lift your next launch higher.
+    </p>
+
+    <!-- HAND-DRAWN DOODLES & NOTES -->
+    <!-- Note 1: "//" doodle at (263, 377) -->
+    <svg class="doodle-slashes" id="doodleSlashes" viewBox="0 0 28 26">
+      <path class="doodle-stroke" id="slash1" stroke-width="2.6" d="M 4,2 L 14,24" />
+      <path class="doodle-stroke" id="slash2" stroke-width="2.6" d="M 14,2 L 24,24" />
+    </svg>
+
+    <!-- Note 2: "Be seen / with clips" at (1212, 310) -->
+    <div class="note-be-seen-wrap" id="noteBeSeenWrap">
+      <div class="note-be-seen">
+        Be seen<br>with clips
+      </div>
+    </div>
+
+    <!-- "Be seen" Curving Arrow down to the cards -->
+    <svg class="svg-arrow-be-seen" id="arrowBeSeen" viewBox="0 0 120 180">
+      <!-- Arrow begins below the text and curls down towards cards -->
+      <path class="doodle-stroke" id="pathArrowBeSeen" stroke-width="2" d="M 75,5 C 85,55 60,110 15,150" />
+      <path class="doodle-stroke" id="headArrowBeSeen" stroke-width="2" d="M 12,136 L 15,150 L 28,148" />
+    </svg>
+
+    <!-- Note 3: "Zero cost" rotated 24° at (521, 937) -->
+    <div class="note-zero-cost-wrap" id="noteZeroCostWrap">
+      <div class="note-zero-cost">Zero cost</div>
+    </div>
+
+    <!-- Small arrow pointing to the button -->
+    <svg class="svg-arrow-zero-cost" id="arrowZeroCost" viewBox="0 0 65 40">
+      <path class="doodle-stroke" id="pathArrowZeroCost" stroke-width="2" d="M 5,28 C 22,32 40,24 54,8" />
+      <path class="doodle-stroke" id="headArrowZeroCost" stroke-width="2" d="M 40,8 L 54,8 L 52,22" />
+    </svg>
+
+    <!-- CURVED VIDEO CAROUSEL (10 Tall Cards) -->
+    <div class="carousel-container" id="carouselContainer">
+      <!-- Cards generated dynamically via JavaScript -->
+    </div>
+
+    <!-- BUTTON: "Make a Reel" with dashed ring -->
+    <div class="btn-ring" id="btnRing"></div>
+    <a href="#make" class="btn-make-reel" id="btnMakeReel">Make a Reel</a>
+
+  </div>
+
+  <script>
+    /* ==========================================================================
+       REELMARK HERO — JAVASCRIPT LOGIC & MATHEMATICAL CURVED CAROUSEL
+       ========================================================================== */
+
+    const POSTER_SRC = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/b7ebb74a-8c8a-4f7e-8f80-55e2d74ecd05.webp";
+    const VIDEO_SRC  = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/04fd3d5f-99d7-476e-98a4-46c08518ffb3.mp4";
+
+    const NUM_CARDS = 10;
+    const PITCH = 196; // 196u even pitch
+    const TOTAL_SPAN = NUM_CARDS * PITCH; // 1960u
+    const BASE_VELOCITY = -50; // 50u per second right -> left
+    const TILE_ASPECT = 384 / 540; // 0.711111
+
+    const container = document.getElementById('carouselContainer');
+    const heroFrame = document.getElementById('heroFrame');
+
+    let u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+
+    // Create 10 card DOM elements
+    const cardElements = [];
+    const videoElements = [];
+
+    for (let i = 0; i < NUM_CARDS; i++) {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.setAttribute('data-index', i);
+
+      const mediaWrap = document.createElement('div');
+      mediaWrap.className = 'card-media-wrapper';
+
+      // Still poster layer
+      const poster = document.createElement('img');
+      poster.className = 'card-poster';
+      poster.src = POSTER_SRC;
+      poster.alt = `Product clip ${i + 1}`;
+      poster.draggable = false;
+
+      // Video element (same src for all 10)
+      const video = document.createElement('video');
+      video.className = 'card-video';
+      video.src = VIDEO_SRC;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.autoplay = true;
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+
+      // Once the video frame is ready, fade it in
+      video.addEventListener('canplay', () => {
+        video.classList.add('is-ready');
+      }, { once: true });
+
+      // Frosted Round Play Icon at bottom-left
+      const playIcon = document.createElement('div');
+      playIcon.className = 'frosted-play-btn';
+      playIcon.innerHTML = `
+        <svg class="play-triangle" viewBox="0 0 10 12">
+          <polygon points="1,1 9,6 1,11" />
+        </svg>
+      `;
+
+      mediaWrap.appendChild(poster);
+      mediaWrap.appendChild(video);
+      card.appendChild(mediaWrap);
+      card.appendChild(playIcon);
+
+      container.appendChild(card);
+      cardElements.push({
+        card,
+        poster,
+        video,
+        index: i
+      });
+      videoElements.push(video);
+    }
+
+    // Synchronize all videos to the same timestamp
+    function syncVideos() {
+      if (videoElements.length === 0) return;
+      const primary = videoElements[0];
+      const targetTime = primary.currentTime;
+      for (let i = 1; i < videoElements.length; i++) {
+        if (Math.abs(videoElements[i].currentTime - targetTime) > 0.15) {
+          try {
+            videoElements[i].currentTime = targetTime;
+          } catch (e) {}
+        }
+      }
+    }
+    setInterval(syncVideos, 2000);
+
+    // Carousel State
+    let scrollOffset = 0; // in units
+    let isDragging = false;
+    let lastPointerX = 0;
+    let lastPointerTime = 0;
+    let momentumVelocity = 0; // in units per second
+
+    // Pointer Dragging & Momentum
+    container.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      container.classList.add('is-dragging');
+      lastPointerX = e.clientX;
+      lastPointerTime = performance.now();
+      momentumVelocity = 0;
+      try {
+        container.setPointerCapture(e.pointerId);
+      } catch (err) {}
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const now = performance.now();
+      const dt = (now - lastPointerTime) / 1000;
+      const dx = e.clientX - lastPointerX;
+
+      // Update scale unit u
+      u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+      const dxUnits = dx / u;
+
+      scrollOffset += dxUnits;
+
+      if (dt > 0.008) {
+        momentumVelocity = dxUnits / dt;
+        lastPointerX = e.clientX;
+        lastPointerTime = now;
+      }
+    });
+
+    const stopDragging = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      container.classList.remove('is-dragging');
+      try {
+        container.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+    };
+
+    window.addEventListener('pointerup', stopDragging);
+    window.addEventListener('pointercancel', stopDragging);
+
+    // Long-running Web Animations clock for time-based animation
+    let clockAnim = null;
+    try {
+      clockAnim = document.documentElement.animate(
+        [{ opacity: 1 }, { opacity: 1 }],
+        { duration: 1e9, iterations: Infinity }
+      );
+    } catch (e) {}
+
+    let prevClockTime = clockAnim ? (clockAnim.currentTime || 0) : performance.now();
+
+    // Responsive check
+    function isMobile() {
+      return window.innerWidth <= 820;
+    }
+
+    // Geometry & Render Loop
+    function render() {
+      const now = clockAnim ? (clockAnim.currentTime || performance.now()) : performance.now();
+      const dt = Math.min((now - prevClockTime) / 1000, 0.1);
+      prevClockTime = now;
+
+      u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+
+      // Momentum and auto-scroll update
+      if (!isDragging) {
+        // scrollOffset moves left at 50u/s + momentum
+        scrollOffset += (momentumVelocity + BASE_VELOCITY) * dt;
+
+        // Velocity decays 95% per second (retains 5% per second)
+        momentumVelocity *= Math.pow(0.05, dt);
+        if (Math.abs(momentumVelocity) < 0.5) {
+          momentumVelocity = 0;
+        }
+      }
+
+      // Loop scrollOffset seamlessly within TOTAL_SPAN
+      scrollOffset = ((scrollOffset % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+
+      const mobile = isMobile();
+      const centerTargetX = mobile ? (window.innerWidth / (2 * u)) : 720;
+      const normDiv = mobile ? (window.innerWidth / (2 * u)) : 706;
+
+      // Update each of the 10 cards
+      for (let i = 0; i < NUM_CARDS; i++) {
+        const item = cardElements[i];
+
+        // Unpushed position offset from centre
+        const nominal = i * PITCH + scrollOffset;
+        let t = ((nominal % TOTAL_SPAN) + TOTAL_SPAN) % TOTAL_SPAN;
+        if (t > TOTAL_SPAN / 2) {
+          t -= TOTAL_SPAN;
+        }
+
+        // Pushed outward from center: x = 720 + t * (1 + 0.083 * (t / 706)^2)
+        const tNorm = t / normDiv;
+        const pushFactor = 1 + 0.083 * (tNorm * tNorm);
+        const x = centerTargetX + t * pushFactor;
+
+        // Normalised distance d = |x - 720| / 706
+        const d = Math.abs(x - centerTargetX) / normDiv;
+
+        // Card width: (170 + 48 * d^2)u
+        const w_u = 170 + 48 * (d * d);
+        const W_px = w_u * u;
+
+        // Edges
+        const x_left = x - w_u / 2;
+        const x_right = x + w_u / 2;
+
+        const q_left = Math.abs(x_left - centerTargetX) / normDiv;
+        const q_right = Math.abs(x_right - centerTargetX) / normDiv;
+
+        // Edge heights: (280 + 92 * q^2.6)u
+        const h_left_u = (mobile ? 200 : 280) + (mobile ? 50 : 92) * Math.pow(q_left, 2.6);
+        const h_right_u = (mobile ? 200 : 280) + (mobile ? 50 : 92) * Math.pow(q_right, 2.6);
+
+        // Vertical centre: (687 - 12 * d^2)u
+        const y_center_u = (mobile ? 130 : 687) - 12 * (d * d);
+
+        // Quad Vertices in Frame coordinates (u)
+        const tl_y_u = y_center_u - h_left_u / 2;
+        const tr_y_u = y_center_u - h_right_u / 2;
+        const bl_y_u = y_center_u + h_left_u / 2;
+        const br_y_u = y_center_u + h_right_u / 2;
+
+        const minY_u = Math.min(tl_y_u, tr_y_u);
+        const maxY_u = Math.max(bl_y_u, br_y_u);
+        const H_px = (maxY_u - minY_u) * u;
+
+        // Card bounding box
+        item.card.style.left = `${x_left * u}px`;
+        item.card.style.top = `${minY_u * u}px`;
+        item.card.style.width = `${W_px}px`;
+        item.card.style.height = `${H_px}px`;
+
+        // Local coordinates for rounded quad clip-path (15u corners)
+        const tl_y_local = (tl_y_u - minY_u) * u;
+        const tr_y_local = (tr_y_u - minY_u) * u;
+        const br_y_local = (br_y_u - minY_u) * u;
+        const bl_y_local = (bl_y_u - minY_u) * u;
+
+        const r = Math.min(15 * u, W_px / 4, H_px / 4);
+
+        // Path with 15u rounded corners on slanted quad
+        const slopeTop = (tr_y_local - tl_y_local) / W_px;
+        const slopeBottom = (bl_y_local - br_y_local) / W_px;
+
+        const pathDef = `path('M 0,${tl_y_local + r} ` +
+          `Q 0,${tl_y_local} ${r},${tl_y_local + slopeTop * r} ` +
+          `L ${W_px - r},${tr_y_local - slopeTop * r} ` +
+          `Q ${W_px},${tr_y_local} ${W_px},${tr_y_local + r} ` +
+          `L ${W_px},${br_y_local - r} ` +
+          `Q ${W_px},${br_y_local} ${W_px - r},${br_y_local + slopeBottom * r} ` +
+          `L ${r},${bl_y_local - slopeBottom * r} ` +
+          `Q 0,${bl_y_local} 0,${bl_y_local - r} Z')`;
+
+        item.card.style.clipPath = pathDef;
+        item.card.style.webkitClipPath = pathDef;
+
+        // Cover-fit 5x2 Video Grid Media
+        // Row-major 5x2 grid: col = i % 5, row = Math.floor(i / 5)
+        const col = i % 5;
+        const row = Math.floor(i / 5);
+
+        const tile_h = Math.max(H_px, W_px / TILE_ASPECT);
+        const tile_w = tile_h * TILE_ASPECT;
+
+        const grid_w = 5 * tile_w;
+        const grid_h = 2 * tile_h;
+
+        const offset_x = - (col * tile_w) + (W_px - tile_w) / 2;
+        const offset_y = - (row * tile_h) + (H_px - tile_h) / 2;
+
+        const mediaTransform = `translate(${offset_x}px, ${offset_y}px)`;
+
+        item.poster.style.width = `${grid_w}px`;
+        item.poster.style.height = `${grid_h}px`;
+        item.poster.style.transform = mediaTransform;
+
+        item.video.style.width = `${grid_w}px`;
+        item.video.style.height = `${grid_h}px`;
+        item.video.style.transform = mediaTransform;
+
+        // Culling if way off-screen
+        const isVisible = (x_right * u > -200) && (x_left * u < (mobile ? window.innerWidth + 200 : 1640 * u));
+        item.card.style.visibility = isVisible ? 'visible' : 'hidden';
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+
+    /* ==========================================================================
+       ENTRANCE WEB ANIMATIONS SEQUENCE
+       ========================================================================== */
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      // Pause videos and show static elements immediately
+      videoElements.forEach(v => v.pause());
+    } else {
+      // One-time Web Animations sequence
+      const logo = document.getElementById('brandLogo');
+      const navBar = document.getElementById('navBar');
+      const btnLogin = document.getElementById('btnLogin');
+      const btnSignup = document.getElementById('btnSignup');
+      const badge = document.getElementById('heroBadge');
+      const line1 = document.getElementById('headlineL1');
+      const line2 = document.getElementById('headlineL2');
+      const subline = document.getElementById('heroSubline');
+      const cards = document.getElementById('carouselContainer');
+      const btnRing = document.getElementById('btnRing');
+      const btnMakeReel = document.getElementById('btnMakeReel');
+
+      // Notes & Doodles
+      const slashes = document.getElementById('doodleSlashes');
+      const noteBeSeen = document.getElementById('noteBeSeenWrap');
+      const arrowBeSeen = document.getElementById('arrowBeSeen');
+      const noteZeroCost = document.getElementById('noteZeroCostWrap');
+      const arrowZeroCost = document.getElementById('arrowZeroCost');
+
+      // Setup SVG stroke dasharray for drawing animation
+      const slash1 = document.getElementById('slash1');
+      const slash2 = document.getElementById('slash2');
+      const pathArrowBeSeen = document.getElementById('pathArrowBeSeen');
+      const headArrowBeSeen = document.getElementById('headArrowBeSeen');
+      const pathArrowZeroCost = document.getElementById('pathArrowZeroCost');
+      const headArrowZeroCost = document.getElementById('headArrowZeroCost');
+
+      const strokeElements = [slash1, slash2, pathArrowBeSeen, headArrowBeSeen, pathArrowZeroCost, headArrowZeroCost];
+      strokeElements.forEach(el => {
+        if (!el) return;
+        const len = el.getTotalLength() || 100;
+        el.style.strokeDasharray = len;
+        el.style.strokeDashoffset = len;
+      });
+
+      // 1. Nav & Topbar drop in
+      const topbarElements = [logo, navBar, btnLogin, btnSignup];
+      topbarElements.forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'translateY(-24px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          duration: 650,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      });
+
+      // 2. Badge pops in
+      if (badge) {
+        badge.animate([
+          { opacity: 0, transform: 'scale(0.85)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 150,
+          duration: 500,
+          easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      // 3. Headline lines rise out of a blur
+      if (line1) {
+        line1.animate([
+          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+        ], {
+          delay: 260,
+          duration: 750,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      if (line2) {
+        line2.animate([
+          { opacity: 0, transform: 'translateY(42px)', filter: 'blur(10px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }
+        ], {
+          delay: 380,
+          duration: 750,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      // 4. Subline rises in
+      if (subline) {
+        subline.animate([
+          { opacity: 0, transform: 'translateY(24px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          delay: 520,
+          duration: 650,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      // 5. Card row rises in
+      if (cards) {
+        cards.animate([
+          { opacity: 0, transform: 'translateY(60px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          delay: 620,
+          duration: 850,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      }
+
+      // 6. Button and ring scale in
+      [btnRing, btnMakeReel].forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'scale(0.8)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 780,
+          duration: 550,
+          easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          fill: 'forwards'
+        });
+      });
+
+      // 7. Hand-drawn doodle strokes draw themselves in
+      setTimeout(() => {
+        strokeElements.forEach(el => {
+          if (!el) return;
+          el.animate([
+            { strokeDashoffset: el.style.strokeDasharray },
+            { strokeDashoffset: 0 }
+          ], {
+            duration: 700,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            fill: 'forwards'
+          });
+        });
+      }, 920);
+
+      // 8. Notes fade in
+      [noteBeSeen, noteZeroCost].forEach(el => {
+        if (!el) return;
+        el.animate([
+          { opacity: 0, transform: 'scale(0.92)' },
+          { opacity: 1, transform: 'scale(1)' }
+        ], {
+          delay: 1000,
+          duration: 600,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+      });
+    }
+
+    // Window resize handler to trigger smooth re-render
+    window.addEventListener('resize', () => {
+      u = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--u')) || 1;
+    });
+  </script>
+</body>
+</html>
