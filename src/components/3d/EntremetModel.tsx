@@ -60,13 +60,13 @@ export function EntremetModel({
       metalness: 0.05
     })
 
-    // 24K Edible Gold Leaf
+    // 24K Edible Gold Leaf (FrontSide only to prevent backface clipping and z-fighting)
     const goldLeaf = new THREE.MeshStandardMaterial({
       color: new THREE.Color('#ffc83b'),
       metalness: 0.98,
       roughness: 0.22,
       emissive: new THREE.Color('#543603'),
-      side: THREE.DoubleSide
+      side: THREE.FrontSide
     })
 
     // Roasted hazelnut halves

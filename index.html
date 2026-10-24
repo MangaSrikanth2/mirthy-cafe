@@ -365,7 +365,7 @@
       font-weight: 500;
       font-size: calc(15.2 * var(--u));
       letter-spacing: -0.01em;
-      z-index: 10;
+      z-index: 20;
       white-space: nowrap;
       padding: 0 calc(12 * var(--u));
     }
@@ -381,7 +381,7 @@
       font-size: calc(88 * var(--u));
       line-height: calc(92 * var(--u));
       color: var(--ink);
-      z-index: 10;
+      z-index: 20;
       pointer-events: none;
     }
 
@@ -406,7 +406,7 @@
       font-size: calc(20.4 * var(--u));
       line-height: calc(32 * var(--u));
       color: var(--subline);
-      z-index: 10;
+      z-index: 20;
       pointer-events: none;
     }
 
@@ -418,7 +418,7 @@
       width: calc(28 * var(--u));
       height: calc(26 * var(--u));
       pointer-events: none;
-      z-index: 12;
+      z-index: 18;
     }
 
     .note-love-wrap {
@@ -426,7 +426,7 @@
       left: calc(1212 * var(--u));
       top: calc(310 * var(--u));
       pointer-events: none;
-      z-index: 12;
+      z-index: 18;
     }
 
     .note-love {
@@ -447,7 +447,7 @@
       width: calc(124 * var(--u));
       height: calc(185 * var(--u));
       pointer-events: none;
-      z-index: 12;
+      z-index: 18;
       overflow: visible;
     }
 
@@ -456,7 +456,7 @@
       left: calc(485 * var(--u));
       top: calc(942 * var(--u));
       pointer-events: none;
-      z-index: 16;
+      z-index: 26;
     }
 
     .note-fresh {
@@ -476,7 +476,7 @@
       width: calc(65 * var(--u));
       height: calc(40 * var(--u));
       pointer-events: none;
-      z-index: 16;
+      z-index: 26;
       overflow: visible;
     }
 
@@ -497,7 +497,9 @@
       cursor: grab;
       z-index: 5;
       touch-action: pan-y;
-      overflow: hidden;
+      overflow: hidden !important;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
     }
 
     .carousel-container.is-dragging {
@@ -508,16 +510,20 @@
       position: absolute;
       top: 0;
       left: 0;
-      overflow: hidden;
+      overflow: hidden !important;
       will-change: transform;
       contain: layout style;
       pointer-events: auto;
-      border-radius: 0;
+      border-radius: 20px;
       cursor: pointer;
-      transform-origin: 0 0;
+      transform-origin: 50% 50%;
       touch-action: pan-y;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+      transform-style: flat !important;
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      mask-image: radial-gradient(white, black);
+      background: transparent !important;
     }
 
     .video-card:focus-visible {
@@ -537,11 +543,23 @@
       left: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow: hidden !important;
+      border-radius: inherit;
       background: linear-gradient(90deg, #E2ECD4 25%, #EDF4E4 50%, #E2ECD4 75%);
       background-size: 200% 100%;
       animation: skeletonShimmer 1.8s infinite ease-in-out;
       contain: layout paint;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+      transform-style: flat !important;
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      mask-image: radial-gradient(white, black);
+      transition: background 0.3s ease;
+    }
+
+    .card-media-wrapper.is-media-loaded {
+      background: transparent !important;
+      animation: none !important;
     }
 
     .card-poster {
@@ -550,11 +568,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: inherit;
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
-      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+      transform: translateZ(0);
     }
 
     .card-poster.is-loaded {
@@ -567,11 +589,18 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: inherit;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
       opacity: 0;
       transition: opacity 0.5s ease;
       pointer-events: none;
-      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+      transform: translateZ(0);
     }
 
     .card-video.is-ready {
@@ -593,6 +622,8 @@
       z-index: 3;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
       pointer-events: none;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
     }
 
     .play-triangle {
@@ -612,7 +643,7 @@
       border: calc(1.8 * var(--u)) dashed var(--forest-green);
       border-radius: var(--radius-pill);
       pointer-events: none;
-      z-index: 14;
+      z-index: 24;
     }
 
     .btn-explore {
@@ -633,7 +664,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 15;
+      z-index: 25;
       text-decoration: none;
       box-shadow: 0 4px 14px rgba(8, 72, 45, 0.25);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
@@ -2368,20 +2399,20 @@
        - Interactive Reservation Form with Instant Confirmation
        ========================================================================== */
 
-    // 10 Cards Configured with Authentic Local Media from /images/
+    // 10 Cards Configured with Distinct Authentic Local Media from /images/
     const CARDS_DATA = [
       {
         type: 'video',
         videoSrc: '/images/video-1792757653236.mp4',
-        posterSrc: '/images/IMG_20261023_173815.jpg',
+        posterSrc: '/images/IMG_20261023_173833.jpg',
         title: 'Golden Viennoiserie',
         desc: 'Laminated French butter croissants & morning pastries'
       },
       {
         type: 'image',
-        posterSrc: '/images/IMG_20261023_173944.jpg',
-        title: 'Signature Obsidian Entremet',
-        desc: 'Valrhona dark chocolate mirror glaze & hazelnut praline'
+        posterSrc: '/images/IMG_20261023_173907.jpg',
+        title: 'Cinnamon Roll Craft',
+        desc: 'Warm spices, soft golden layers & velvety vanilla glaze'
       },
       {
         type: 'video',
@@ -2392,15 +2423,15 @@
       },
       {
         type: 'image',
-        posterSrc: '/images/IMG_20261023_173924.jpg',
-        title: 'The Cherry Entremet',
-        desc: 'Tart Morello cherry compote with Madagascar vanilla bean'
+        posterSrc: '/images/IMG_20261023_173944.jpg',
+        title: 'Artisan Sourdough & Brunch',
+        desc: 'In-house country sourdough, whipped avocado & creamy feta'
       },
       {
         type: 'image',
-        posterSrc: '/images/IMG_20261023_174019.jpg',
-        title: 'Specialty Coffee Pairing',
-        desc: 'Estate-grown Arabica roasted for pastry pairing'
+        posterSrc: '/images/IMG_20261023_174003.jpg',
+        title: 'Classic Mezze Platter',
+        desc: 'Warm pita, smoked house hummus & Mediterranean dips'
       },
       {
         type: 'image',
@@ -2411,15 +2442,15 @@
       {
         type: 'video',
         videoSrc: '/images/video-1792757653236.mp4',
-        posterSrc: '/images/IMG_20261023_173833.jpg',
+        posterSrc: '/images/IMG_20261023_174047.jpg',
         title: '48-Hour Fermentation',
         desc: 'Honeycomb lamination baked to deep golden crispness'
       },
       {
         type: 'image',
-        posterSrc: '/images/IMG_20261023_173907.jpg',
-        title: 'Pistachio Paris-Brest',
-        desc: 'Crisp choux ring filled with pure Sicilian pistachio cream'
+        posterSrc: '/images/IMG_20261023_173924.jpg',
+        title: 'Avocado Tartine',
+        desc: 'Poached farm egg, whipped avocado & fresh microgreens'
       },
       {
         type: 'image',
@@ -2430,8 +2461,8 @@
       {
         type: 'video',
         videoSrc: '/images/Video-77167.mp4',
-        posterSrc: '/images/IMG_20261023_174047.jpg',
-        title: 'Café Refreshments',
+        posterSrc: '/images/IMG_20261023_174019.jpg',
+        title: 'Café Refreshments & Brews',
         desc: 'Matcha lattes, cold brews & sparkling fruit sodas'
       }
     ];
@@ -2508,9 +2539,11 @@
       poster.decoding = 'async';
       poster.onload = function() {
         this.classList.add('is-loaded');
+        mediaWrap.classList.add('is-media-loaded');
       };
       if (poster.complete) {
         poster.classList.add('is-loaded');
+        mediaWrap.classList.add('is-media-loaded');
       }
       poster.onerror = function() {
         if (!this.dataset.retried) {
@@ -2546,6 +2579,7 @@
 
         video.addEventListener('canplay', () => {
           video.classList.add('is-ready');
+          mediaWrap.classList.add('is-media-loaded');
         }, { once: true });
 
         mediaWrap.appendChild(video);
@@ -2873,24 +2907,54 @@
           const br_y_local = (br_y_u - minY_u) * u;
           const bl_y_local = (bl_y_u - minY_u) * u;
 
-          const r = Math.min(15 * u, W_px / 4, H_px / 4);
+          const r = Math.max(6, Math.min(18 * u, W_px / 5, H_px / 5));
 
           const slopeTop = W_px > 0 ? (tr_y_local - tl_y_local) / W_px : 0;
           const slopeBottom = W_px > 0 ? (bl_y_local - br_y_local) / W_px : 0;
 
-          const pathDef = `path('M 0,${(tl_y_local + r).toFixed(1)} ` +
-            `Q 0,${tl_y_local.toFixed(1)} ${r.toFixed(1)},${(tl_y_local + slopeTop * r).toFixed(1)} ` +
-            `L ${(W_px - r).toFixed(1)},${(tr_y_local - slopeTop * r).toFixed(1)} ` +
-            `Q ${W_px.toFixed(1)},${tr_y_local.toFixed(1)} ${W_px.toFixed(1)},${(tr_y_local + r).toFixed(1)} ` +
-            `L ${W_px.toFixed(1)},${(br_y_local - r).toFixed(1)} ` +
-            `Q ${W_px.toFixed(1)},${br_y_local.toFixed(1)} ${(W_px - r).toFixed(1)},${(br_y_local + slopeBottom * r).toFixed(1)} ` +
-            `L ${r.toFixed(1)},${(bl_y_local - slopeBottom * r).toFixed(1)} ` +
-            `Q 0,${bl_y_local.toFixed(1)} 0,${(bl_y_local - r).toFixed(1)} Z')`;
+          const p0_x = 0;
+          const p0_y = Math.min(H_px - r, Math.max(r, tl_y_local + r));
+          const c1_x = 0;
+          const c1_y = Math.max(0, tl_y_local);
+          const p1_x = r;
+          const p1_y = Math.max(0, Math.min(H_px, tl_y_local + slopeTop * r));
+
+          const p2_x = Math.max(r, W_px - r);
+          const p2_y = Math.max(0, Math.min(H_px, tr_y_local - slopeTop * r));
+          const c2_x = W_px;
+          const c2_y = Math.max(0, tr_y_local);
+          const p3_x = W_px;
+          const p3_y = Math.min(H_px - r, Math.max(r, tr_y_local + r));
+
+          const p4_x = W_px;
+          const p4_y = Math.max(r, Math.min(H_px - r, br_y_local - r));
+          const c3_x = W_px;
+          const c3_y = Math.min(H_px, br_y_local);
+          const p5_x = Math.max(r, W_px - r);
+          const p5_y = Math.min(H_px, Math.max(0, br_y_local + slopeBottom * r));
+
+          const p6_x = r;
+          const p6_y = Math.min(H_px, Math.max(0, bl_y_local - slopeBottom * r));
+          const c4_x = 0;
+          const c4_y = Math.min(H_px, bl_y_local);
+          const p7_x = 0;
+          const p7_y = Math.max(r, Math.min(H_px - r, bl_y_local - r));
+
+          const pathDef = `path('M ${p0_x},${p0_y.toFixed(1)} ` +
+            `Q ${c1_x.toFixed(1)},${c1_y.toFixed(1)} ${p1_x.toFixed(1)},${p1_y.toFixed(1)} ` +
+            `L ${p2_x.toFixed(1)},${p2_y.toFixed(1)} ` +
+            `Q ${c2_x.toFixed(1)},${c2_y.toFixed(1)} ${p3_x.toFixed(1)},${p3_y.toFixed(1)} ` +
+            `L ${p4_x.toFixed(1)},${p4_y.toFixed(1)} ` +
+            `Q ${c3_x.toFixed(1)},${c3_y.toFixed(1)} ${p5_x.toFixed(1)},${p5_y.toFixed(1)} ` +
+            `L ${p6_x.toFixed(1)},${p6_y.toFixed(1)} ` +
+            `Q ${c4_x.toFixed(1)},${c4_y.toFixed(1)} ${p7_x.toFixed(1)},${p7_y.toFixed(1)} Z')`;
 
           // Cache clipPath string to avoid CPU re-rasterization
           if (item.lastPath !== pathDef) {
-            item.card.style.clipPath = pathDef;
-            item.card.style.webkitClipPath = pathDef;
+            try {
+              item.card.style.clipPath = pathDef;
+              item.card.style.webkitClipPath = pathDef;
+            } catch (err) {}
             item.lastPath = pathDef;
           }
         }
