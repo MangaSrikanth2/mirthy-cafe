@@ -2483,18 +2483,42 @@
       prefersReducedMotion = e.matches;
       if (prefersReducedMotion) {
         videoElements.forEach(v => { if (!v.paused) v.pause(); });
-      } else if (isHeroInView && !isMobile()) {
-        videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+      } else if (isHeroInView) {
+        playAllVideos();
       }
     });
 
     let isHeroInView = true;
     let isPageVisible = !document.hidden;
 
+    // Universal autoplay helper that safely starts hero videos across mobile & desktop browsers
+    function playAllVideos() {
+      if (prefersReducedMotion || !isHeroInView || !isPageVisible) return;
+      videoElements.forEach(v => {
+        if (v && v.paused) {
+          const p = v.play();
+          if (p && typeof p.then === 'function') {
+            p.then(() => {
+              v.classList.add('is-ready');
+            }).catch(() => {});
+          }
+        }
+      });
+    }
+
+    // Unlock autoplay on any initial user gesture (touch, drag, click, scroll)
+    const gestureUnlockEvents = ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'scroll', 'keydown'];
+    const unlockAutoplayOnGesture = () => {
+      playAllVideos();
+      gestureUnlockEvents.forEach(evt => window.removeEventListener(evt, unlockAutoplayOnGesture));
+    };
+    gestureUnlockEvents.forEach(evt => {
+      window.addEventListener(evt, unlockAutoplayOnGesture, { passive: true });
+    });
+
     // Build the 10 Video Card Elements with Keyboard & Touch Optimization
     const cardElements = [];
     const videoElements = [];
-    const mobile = isMobile();
 
     for (let i = 0; i < NUM_CARDS; i++) {
       const data = CARDS_DATA[i];
@@ -2532,20 +2556,39 @@
       mediaWrap.appendChild(poster);
 
       let video = null;
-      // On mobile, rely solely on crisp static posters to eliminate WebKit GPU crashes and video buffering spinners
-      if (data.type === 'video' && !mobile) {
+      if (data.type === 'video') {
         video = document.createElement('video');
         video.className = 'card-video';
-        video.src = resolvePath(data.videoSrc);
+        // Attributes and properties set before src to satisfy iOS WebKit / Chrome strict autoplay policies
         video.muted = true;
-        video.loop = true;
+        video.defaultMuted = true;
         video.playsInline = true;
+        video.loop = true;
+        video.autoplay = true;
+        video.preload = 'auto';
         video.setAttribute('muted', '');
         video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
         video.setAttribute('loop', '');
-        video.preload = 'metadata';
-        video.autoplay = true;
         video.setAttribute('autoplay', '');
+        video.setAttribute('preload', 'auto');
+        video.src = resolvePath(data.videoSrc);
+
+        const markReady = () => {
+          video.classList.add('is-ready');
+          mediaWrap.classList.add('is-media-loaded');
+        };
+
+        video.addEventListener('loadeddata', markReady, { once: true });
+        video.addEventListener('canplay', markReady, { once: true });
+        video.addEventListener('playing', markReady, { once: true });
+        video.addEventListener('timeupdate', () => {
+          if (video.currentTime > 0) markReady();
+        }, { once: true });
+
+        if (video.readyState >= 2) {
+          markReady();
+        }
 
         video.onerror = function() {
           if (!this.dataset.retried) {
@@ -2554,10 +2597,15 @@
           }
         };
 
-        video.addEventListener('canplay', () => {
-          video.classList.add('is-ready');
-          mediaWrap.classList.add('is-media-loaded');
-        }, { once: true });
+        // Trigger immediate autoplay
+        const p = video.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            markReady();
+          }).catch(() => {
+            // Browser autoplay policy will resume on first user interaction
+          });
+        }
 
         mediaWrap.appendChild(video);
         videoElements.push(video);
@@ -2601,6 +2649,7 @@
 
     container.addEventListener('pointerdown', (e) => {
       if (e.button !== undefined && e.button !== 0) return;
+      playAllVideos();
       isPointerDown = true;
       isDragging = false;
       startX = e.clientX;
@@ -2706,8 +2755,8 @@
             if (isPageVisible && !animationFrameId) {
               animationFrameId = requestAnimationFrame(renderLoop);
             }
-            if (!prefersReducedMotion && !isMobile()) {
-              videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+            if (!prefersReducedMotion) {
+              playAllVideos();
             }
           }
         });
@@ -2783,11 +2832,18 @@
             if (item.card.style.visibility !== 'hidden') {
               item.card.style.visibility = 'hidden';
             }
+            if (item.video && !item.video.paused) {
+              item.video.pause();
+            }
             continue;
           }
 
           if (item.card.style.visibility !== 'visible') {
             item.card.style.visibility = 'visible';
+          }
+          if (item.video && item.video.paused && !prefersReducedMotion && isHeroInView && isPageVisible) {
+            const p = item.video.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
           }
 
           const q_left = Math.min(1.35, Math.abs(x_left_px - centerTargetX) / normDiv);
@@ -2919,6 +2975,10 @@
           if (item.card.style.visibility !== 'visible') {
             item.card.style.visibility = 'visible';
           }
+          if (item.video && item.video.paused && !prefersReducedMotion && isHeroInView && isPageVisible) {
+            const p = item.video.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+          }
 
           const q_left = Math.min(1.4, Math.abs(x_left - centerTargetX) / normDiv);
           const q_right = Math.min(1.4, Math.abs(x_right - centerTargetX) / normDiv);
@@ -3017,8 +3077,8 @@
         if (isHeroInView && !animationFrameId) {
           animationFrameId = requestAnimationFrame(renderLoop);
         }
-        if (isHeroInView && !prefersReducedMotion && !isMobile()) {
-          videoElements.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+        if (isHeroInView && !prefersReducedMotion) {
+          playAllVideos();
         }
       } else {
         if (animationFrameId) {
@@ -3032,9 +3092,10 @@
     animationFrameId = requestAnimationFrame(renderLoop);
 
     /* 6. ENTRANCE WEB ANIMATIONS API SEQUENCE */
-    if (prefersReducedMotion || isMobile()) {
-      // On mobile or reduced-motion, ensure all content is statically and immediately visible
+    if (prefersReducedMotion) {
       videoElements.forEach(v => { if (!v.paused) v.pause(); });
+    } else if (isMobile()) {
+      playAllVideos();
     } else {
       const logo = document.getElementById('brandLogo');
       const navBar = document.getElementById('navBar');
