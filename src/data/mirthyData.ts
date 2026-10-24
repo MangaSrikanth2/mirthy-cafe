@@ -19,7 +19,7 @@ export const BRAND_CONFIG: BrandConfig = {
       lat: 17.4382631,
       lng: 78.3987587
     },
-    googleMapsUrl: 'https://maps.app.goo.gl/SgHixwNMjMhj3acP8?g_st=aw'
+    googleMapsUrl: 'https://www.google.com/maps/dir//MIRTHY+CAFE,+Ground+floor,+Plot+no+726,+Road+No.+36,+near+vurve+salon,+CBI+Colony,+Jubilee+Hills,+Hyderabad,+Telangana+500033/@17.5818792,78.4481845,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3bcb91c7ba55d123:0x4c6e8382c2c5aae6!2m2!1d78.3987587!2d17.4382631?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D'
   },
   hours: {
     days: 'Monday – Sunday',
