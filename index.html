@@ -607,30 +607,9 @@
       opacity: 1;
     }
 
-    .frosted-play-btn {
-      position: absolute;
-      left: calc(12 * var(--u));
-      bottom: calc(12 * var(--u));
-      width: calc(30 * var(--u));
-      height: calc(30 * var(--u));
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 3;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-      pointer-events: none;
-      -webkit-backface-visibility: hidden !important;
-      backface-visibility: hidden !important;
-    }
-
+    .frosted-play-btn,
     .play-triangle {
-      width: calc(10 * var(--u));
-      height: calc(10 * var(--u));
-      margin-left: calc(2 * var(--u));
-      fill: var(--forest-green);
+      display: none !important;
     }
 
     /* PRIMARY HERO CTA */
@@ -2584,16 +2563,7 @@
         videoElements.push(video);
       }
 
-      const playIcon = document.createElement('div');
-      playIcon.className = 'frosted-play-btn';
-      playIcon.innerHTML = `
-        <svg class="play-triangle" viewBox="0 0 10 12" aria-hidden="true">
-          <polygon points="1,1 9,6 1,11" />
-        </svg>
-      `;
-
       card.appendChild(mediaWrap);
-      card.appendChild(playIcon);
 
       card.addEventListener('click', () => {
         if (totalDragDelta > 8 || Math.abs(momentumVelocity) > 20) return;
