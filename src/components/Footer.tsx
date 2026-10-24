@@ -65,7 +65,7 @@ export function Footer() {
           <div className="footer-legal">
             <span>© {new Date().getFullYear()} {BRAND_CONFIG.name} Pâtisserie &amp; Café. All rights reserved.</span>
             <span className="footer-bullet">•</span>
-            <span>Jubilee Hills, Hyderabad</span>
+            <span>Designed and developed by Devdale</span>
           </div>
 
           <button
